@@ -14,9 +14,9 @@ export default function Button({ title, name, commentCount, ...props }) {
     <>
       {title !== undefined ? (
         <StyledButton {...props}>
-          {title && <Title>{title}</Title>}
+          {title && <Title {...props}>{title}</Title>}
           {commentCount && (
-            <NameAndCommentContainer>
+            <NameAndCommentContainer {...props}>
               <Name>{name}</Name>
               <CommentContainer>
                 <Image src={CommentImage} alt="이미지 설명" />

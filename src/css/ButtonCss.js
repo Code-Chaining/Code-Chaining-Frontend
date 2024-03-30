@@ -34,11 +34,13 @@ export const Title = styled.span`
   margin: 0.66vh 0 0 0.6vw;
   color: #000000;
   font-family: Pretendard, var(--default-font-family);
-  font-size: 1.5vw;
+  font-size: ${(props) => (props.size === "large" ? "1.3vw" : "1vw")};
   font-weight: 700;
   line-height: 3vh;
   text-align: left;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   z-index: 11;
 `;
 
@@ -48,7 +50,8 @@ export const NameAndCommentContainer = styled.div`
   position: relative;
   width: 7.33vw;
   height: 1.47vh;
-  margin: 0 0 1vh 0.6vw;
+  margin: ${(props) =>
+    props.size === "large" ? "0 0 1vh 0.6vw" : "0 0 1vh 0"};
   z-index: 13;
 `;
 
