@@ -36,6 +36,5 @@ export const PublicRoomDiv = styled.div`
   background: #ffffff;
   z-index: 9;
   overflow: hidden;
-  box-shadow: 0vw 0.4vw 0.6vw rgba(0, 0, 0, 0.1) inset;
   overflow-y: scroll; // 나중에 페이지네이션 넣을 때 없애기
 `;
