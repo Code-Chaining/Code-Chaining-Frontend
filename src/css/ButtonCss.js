@@ -1,7 +1,11 @@
 import styled from "styled-components";
 
 export const StyledButton = styled.button`
-  width: ${(props) => (props.size === "large" ? "35vw" : "auto")};
+  width: ${(props) => {
+    if (props.size === "large") return "35vw";
+    if (props.$variant === "cancel" || props.$variant === "save") return "10vw";
+    return "auto";
+  }};
   height: ${(props) => (props.size === "large" ? "7vh" : "auto")};
   margin: ${(props) => (props.size === "large" ? "1vh 1vw" : "")};
   padding: ${(props) => (props.size === "large" ? "" : "1vh")};
@@ -11,9 +15,10 @@ export const StyledButton = styled.button`
   }
 
   border-radius: 0.375rem;
-  background-color: #ffffff;
-  color: #000000;
-  border: 2px solid #dedede;
+  background-color: ${(props) => (props.isActive ? "#434343" : "#ffffff")};
+  color: ${(props) => (props.isActive ? "#ffffff" : "#000000")};
+  border: ${(props) =>
+    props.$variant === "cancel" ? "none" : "2px solid #dedede"};
 
   cursor: pointer;
   &:hover {
@@ -71,6 +76,7 @@ export const Comment = styled.div`
   position: relative;
   width: 1vw;
   height: 1.47vh;
+  color: #000000;
   font-family: Pretendard, var(--default-font-family);
   font-size: 1.2vw;
   font-weight: 400;
