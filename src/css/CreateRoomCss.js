@@ -17,12 +17,12 @@ export const ButtonContainer = styled.div`
   flex-wrap: nowrap;
   gap: 1.25vw;
   position: relative;
-  width: 97%;
+  width: 95%;
   z-index: 9;
 `;
 
 export const StyledInput = styled.input`
-  width: 97%;
+  width: 95%;
   padding: 0.5vw;
   margin: 0.5vw 0;
   box-sizing: border-box;
@@ -36,7 +36,7 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledTextArea = styled.textarea`
-  width: 97%;
+  width: 95%;
   height: 20vh;
   padding: 1vw;
   margin: 0.5vw 0;
@@ -58,7 +58,7 @@ export const StyledLabel = styled.label`
 `;
 
 export const MarkdownPreview = styled.div`
-  width: 97%;
+  width: 95%;
   border: 1px solid #ccc;
   padding: 2vw;
   box-sizing: border-box;
