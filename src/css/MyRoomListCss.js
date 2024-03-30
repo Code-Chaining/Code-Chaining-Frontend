@@ -8,7 +8,7 @@ export const RoomList = styled.div`
   gap: 0.625vw;
   padding: 0.8125vw;
   height: 85vh;
-  max-height: 85vh; // 600px 대신, 화면 높이의 37.5%를 사용
+  max-height: 85vh;
   overflow-y: scroll;
 `;
 

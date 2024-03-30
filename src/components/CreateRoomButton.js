@@ -1,5 +1,5 @@
-import { MyCreateRoomButton } from "../css/CreateRoomButtonCss";
+import Button from "./Button";
 
 export default function CreateRoomButton() {
-  return <MyCreateRoomButton>방 생성</MyCreateRoomButton>;
+  return <Button>방 생성</Button>;
 }
