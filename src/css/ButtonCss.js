@@ -15,8 +15,8 @@ export const StyledButton = styled.button`
   }
 
   border-radius: 0.375rem;
-  background-color: ${(props) => (props.isActive ? "#434343" : "#ffffff")};
-  color: ${(props) => (props.isActive ? "#ffffff" : "#000000")};
+  background-color: ${(props) => (props.$isActive ? "#434343" : "#ffffff")};
+  color: ${(props) => (props.$isActive ? "#ffffff" : "#000000")};
   border: ${(props) =>
     props.$variant === "cancel" ? "none" : "2px solid #dedede"};
 

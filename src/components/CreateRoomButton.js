@@ -12,7 +12,7 @@ export default function CreateRoomButton() {
   const isActive = location.pathname === "/create-room";
 
   return (
-    <Button onClick={handleCreateRoom} isActive={isActive}>
+    <Button onClick={handleCreateRoom} $isActive={isActive}>
       방 생성
     </Button>
   );
