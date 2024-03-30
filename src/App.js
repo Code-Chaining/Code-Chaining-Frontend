@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Header";
+import PublicRoomList from "./components/PublicRoomList";
 import RoomSidebar from "./components/RoomSidebar";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <>
       <Header />
       <RoomSidebar />
+      <PublicRoomList />
     </>
   );
 }

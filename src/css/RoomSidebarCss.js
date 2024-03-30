@@ -2,16 +2,16 @@ import styled from "styled-components";
 
 export const SidebarContainer = styled.aside`
   background-color: #434343;
-  border-radius: 10px;
+  border-radius: 0.625vw;
   overflow: hidden;
-  position: relative;
-  width: 300px;
-  height: 760px;
+  position: absolute;
+  width: 20vw;
+  height: 100vh;
 `;
 
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 30px;
+  gap: 1.25vw;
+  padding: 1.875vw;
 `;

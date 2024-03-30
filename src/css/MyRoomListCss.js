@@ -2,21 +2,21 @@ import styled from "styled-components";
 
 export const RoomList = styled.div`
   background-color: #ffffff;
-  border-radius: 10px;
+  border-radius: 0.625vw;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 13px;
-  height: 600px;
-  max-height: 600px;
+  gap: 0.625vw;
+  padding: 0.8125vw;
+  height: 85vh;
+  max-height: 85vh; // 600px 대신, 화면 높이의 37.5%를 사용
   overflow-y: scroll;
 `;
 
 export const RoomTitle = styled.div`
   color: #000000;
   font-family: "Pretendard-Regular", Helvetica;
-  font-size: 20px;
+  font-size: 1.25vw;
   font-weight: 400;
   text-align: center;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  text-shadow: 0.125vw 0.125vw 0.25vw rgba(0, 0, 0, 0.5);
 `;
