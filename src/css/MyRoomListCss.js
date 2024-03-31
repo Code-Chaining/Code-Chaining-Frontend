@@ -18,5 +18,4 @@ export const RoomTitle = styled.div`
   font-size: 1.25vw;
   font-weight: 400;
   text-align: center;
-  text-shadow: 0.125vw 0.125vw 0.25vw rgba(0, 0, 0, 0.5);
 `;

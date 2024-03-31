@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const SidebarContainer = styled.aside`
   background-color: #434343;
-  border-radius: 0.625vw;
   overflow: hidden;
   position: absolute;
   width: 20vw;

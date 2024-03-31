@@ -18,6 +18,7 @@ export const ButtonContainer = styled.div`
   gap: 1.25vw;
   position: relative;
   width: 95%;
+  margin-top: 5vh;
   z-index: 9;
 `;
 
@@ -39,7 +40,6 @@ export const StyledTextArea = styled.textarea`
   width: 95%;
   height: 20vh;
   padding: 1vw;
-  margin: 0.5vw 0;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 0.4vw;
