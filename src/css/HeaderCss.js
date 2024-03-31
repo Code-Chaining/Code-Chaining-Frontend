@@ -22,5 +22,4 @@ export const Text = styled.div`
   font-family: "Pretendard-Black", Helvetica;
   font-size: 1.3vw;
   font-weight: 900;
-  text-align: center;
 `;
