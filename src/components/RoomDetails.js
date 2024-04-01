@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   StyledLabel,
@@ -17,13 +17,34 @@ import logoImage from "../assets/Logo.png";
 import CommentsContainer from "./CommentsContainer";
 
 import { comments } from "../data";
+import axios from "axios";
 
 export default function RoomDetails() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   let { roomId } = useParams();
 
   const [title, setTitle] = useState("");
   const [codeAndContents, setCodeAndContents] = useState("");
+  const [date, setDate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    const roomInfo = async () => {
+      try {
+        const response = await axios.get(
+          `${apiBaseUrl}/room/info?roomId=${roomId}`
+        );
+
+        setTitle(response.data.data.title);
+        setCodeAndContents(response.data.data.codeAndContents);
+        setDate(response.data.data.date);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    roomInfo();
+  }, [apiBaseUrl, roomId]);
 
   const handleEdit = () => {
     // 수정 true, false -> 서버에서 room의 작성자와 memberId 같은지 구별해서 버튼 온오프
@@ -88,6 +109,7 @@ export default function RoomDetails() {
               />
               <StyledLabel>미리보기</StyledLabel>
               <MarkdownPreview>{markdownContent}</MarkdownPreview>
+              <StyledLabel>{date}</StyledLabel>
             </>
           )}
         </div>

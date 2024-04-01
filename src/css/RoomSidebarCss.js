@@ -5,7 +5,7 @@ export const SidebarContainer = styled.aside`
   overflow: hidden;
   position: absolute;
   width: 20vw;
-  height: 100vh;
+  height: 90vh;
 `;
 
 export const FlexContainer = styled.div`

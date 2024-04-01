@@ -7,8 +7,8 @@ export const RoomList = styled.div`
   flex-direction: column;
   gap: 0.625vw;
   padding: 0.8125vw;
-  height: 85vh;
-  max-height: 85vh;
+  height: 70vh;
+  max-height: 70vh;
   overflow-y: scroll;
 `;
 

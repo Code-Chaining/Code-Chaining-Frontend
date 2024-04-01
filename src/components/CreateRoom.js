@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   CreateRoomForm,
   ButtonContainer,
-  StyledInput,
   StyledTextArea,
   StyledLabel,
   MarkdownPreview,
@@ -11,8 +10,10 @@ import {
 import Button from "./Button";
 import renderMarkdown from "../utils/renderMarkdown";
 import RoomTitle from "./RoomTitle";
+import axios from "axios";
 
 export default function CreateRoom() {
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [title, setTitle] = useState("");
   const [codeAndContents, setCodeAndContents] = useState("");
 
@@ -25,9 +26,19 @@ export default function CreateRoom() {
   const handleSave = (e) => {
     e.preventDefault();
 
-    console.log(title, codeAndContents);
+    const roomData = {
+      title: title,
+      codeAndContents: codeAndContents,
+    };
 
-    handleMainPage();
+    axios
+      .post(`${apiBaseUrl}/room/`, roomData)
+      .then((response) => {
+        handleMainPage();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const markdownContent = renderMarkdown(codeAndContents);

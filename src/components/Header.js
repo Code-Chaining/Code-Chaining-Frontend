@@ -1,20 +1,21 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import logoImage from "../assets/Logo.png";
-import { LogoAndTextContainer, Logo, Text } from "../css/HeaderCss";
+import { LogoAndTextContainer, Logo, Text, HeaderCss } from "../css/HeaderCss";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <header>
+    <HeaderCss>
       <LogoAndTextContainer>
         <Link
           to="/"
           style={{
-            textDecoration: "none",
             color: "inherit",
             display: "flex",
-            alignItems: "center",
             gap: "1.1vw",
+            height: "60px",
+            alignItems: "center",
+            textDecoration: "none",
           }}
         >
           <Logo alt="Logo" src={logoImage} />
@@ -25,6 +26,6 @@ export default function Header() {
           </Text>
         </Link>
       </LogoAndTextContainer>
-    </header>
+    </HeaderCss>
   );
 }

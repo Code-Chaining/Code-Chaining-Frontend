@@ -9,7 +9,7 @@ export default function RoomTitle({ isEditing = true, title, setTitle }) {
         type="text"
         disabled={!isEditing}
         placeholder="제목을 입력하세요."
-        value={title}
+        value={title || ""}
         onChange={(e) => setTitle(e.target.value)}
       />
     </div>
