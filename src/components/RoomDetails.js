@@ -11,13 +11,12 @@ import { RoomDetailsContainer, Divider } from "../css/RoomDetailsCss";
 import Button from "./Button";
 import RoomTitle from "./RoomTitle";
 import renderMarkdown from "../utils/renderMarkdown";
-import CommentInputContainer from "./CommentInputContainer";
 
 import logoImage from "../assets/Logo.png";
-import CommentsContainer from "./CommentsContainer";
 
 import { comments } from "../data";
 import axios from "axios";
+import DiscussionContainer from "./DiscussionContainer";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
@@ -85,6 +84,11 @@ export default function RoomDetails() {
     setIsEditing(false);
   };
 
+  const handleSubmitComment = (comment) => {
+    // 댓글 저장하는 API 호출 로직 구현
+    console.log(comment);
+  };
+
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
@@ -139,18 +143,14 @@ export default function RoomDetails() {
             </>
           )}
         </div>
+        <Divider />
 
         {/* 토론의 장 */}
-        <div>
-          <Divider />
-          <StyledLabel>토론의 장</StyledLabel>
-          <CommentInputContainer
-            profileImageUrl={logoImage} // 프로필 이미지 URL
-            onSubmit={(comment) => console.log(comment)} // 댓글 제출 처리 함수 -> 댓글 저장하는 api로 변경
-          />
-          {/* 댓글 불러오기 */}
-          <CommentsContainer comments={comments} />
-        </div>
+        <DiscussionContainer
+          profileImageUrl={logoImage}
+          onSubmit={handleSubmitComment}
+          comments={comments}
+        />
       </RoomDetailsContainer>
     </>
   );

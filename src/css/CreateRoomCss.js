@@ -32,7 +32,7 @@ export const StyledInput = styled.input`
   &:focus {
     outline: none;
     border-color: #4a90e2;
-    box-shadow: 0 0 0 0.2vw rgba(74, 144, 226, 0.5);
+    box-shadow: 0 0 0 0.1vw rgba(74, 144, 226, 0.5);
   }
 `;
 
