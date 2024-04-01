@@ -26,19 +26,17 @@ export default function MyRoomList() {
       }
     };
 
-    fetchRooms();
+    fetchRooms(apiBaseUrl, setRooms);
   }, [apiBaseUrl]);
 
   function handleRoomDetailPage(e, roomId) {
     e.stopPropagation();
-
     navigate(`/room/${roomId}`);
   }
 
   return (
     <RoomList>
       <RoomTitle>내 토론 방</RoomTitle>
-      {/* 서버에서 받아오는 데이터 리턴 */}
       {rooms.map((room) => (
         <Button
           key={room.roomId}

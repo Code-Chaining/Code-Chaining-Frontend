@@ -11,39 +11,42 @@ import { RoomDetailsContainer, Divider } from "../css/RoomDetailsCss";
 import Button from "./Button";
 import RoomTitle from "./RoomTitle";
 import renderMarkdown from "../utils/renderMarkdown";
-import CommentInputContainer from "./CommentInputContainer";
 
 import logoImage from "../assets/Logo.png";
-import CommentsContainer from "./CommentsContainer";
 
 import { comments } from "../data";
 import axios from "axios";
+import DiscussionContainer from "./DiscussionContainer";
 
 export default function RoomDetails() {
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   let { roomId } = useParams();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-  const [title, setTitle] = useState("");
-  const [codeAndContents, setCodeAndContents] = useState("");
-  const [date, setDate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [roomInfo, setRoomInfo] = useState({
+    title: "",
+    codeAndContents: "",
+    date: "",
+  });
 
   useEffect(() => {
-    const roomInfo = async () => {
+    const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(
           `${apiBaseUrl}/room/info?roomId=${roomId}`
         );
-
-        setTitle(response.data.data.title);
-        setCodeAndContents(response.data.data.codeAndContents);
-        setDate(response.data.data.date);
+        const { title, codeAndContents, date } = response.data.data;
+        setRoomInfo({
+          title,
+          codeAndContents,
+          date,
+        });
       } catch (error) {
         console.log(error);
       }
     };
 
-    roomInfo();
+    fetchRoomInfo();
   }, [apiBaseUrl, roomId]);
 
   const handleEdit = () => {
@@ -51,8 +54,25 @@ export default function RoomDetails() {
     setIsEditing(true);
   };
 
-  const handleUpdateSave = () => {
-    // 서버에서 update api 호출
+  const updateRoomInfo = (field, value) => {
+    setRoomInfo((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleUpdateSave = async () => {
+    try {
+      await axios.put(`${apiBaseUrl}/room/${roomId}`, {
+        title: roomInfo.title,
+        codeAndContents: roomInfo.codeAndContents,
+      });
+
+      alert("방이 성공적으로 수정되었습니다!");
+    } catch (error) {
+      alert("수정에 실패했습니다.");
+    }
+
     setIsEditing(false);
   };
 
@@ -64,7 +84,12 @@ export default function RoomDetails() {
     setIsEditing(false);
   };
 
-  const markdownContent = renderMarkdown(codeAndContents);
+  const handleSubmitComment = (comment) => {
+    // 댓글 저장하는 API 호출 로직 구현
+    console.log(comment);
+  };
+
+  const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
     <>
@@ -88,7 +113,11 @@ export default function RoomDetails() {
         </ButtonContainer>
       )}
       <RoomDetailsContainer>
-        <RoomTitle isEditing={isEditing} title={title} setTitle={setTitle} />
+        <RoomTitle
+          isEditing={isEditing}
+          title={roomInfo.title}
+          setTitle={(value) => updateRoomInfo("title", value)}
+        />
 
         <div>
           {!isEditing ? (
@@ -104,27 +133,24 @@ export default function RoomDetails() {
               <StyledTextArea
                 id="codeAndContents"
                 placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
-                value={codeAndContents}
-                onChange={(e) => setCodeAndContents(e.target.value)}
+                value={roomInfo.codeAndContents}
+                onChange={(e) =>
+                  updateRoomInfo("codeAndContents", e.target.value)
+                }
               />
               <StyledLabel>미리보기</StyledLabel>
               <MarkdownPreview>{markdownContent}</MarkdownPreview>
-              <StyledLabel>{date}</StyledLabel>
             </>
           )}
         </div>
+        <Divider />
 
         {/* 토론의 장 */}
-        <div>
-          <Divider />
-          <StyledLabel>토론의 장</StyledLabel>
-          <CommentInputContainer
-            profileImageUrl={logoImage} // 프로필 이미지 URL
-            onSubmit={(comment) => console.log(comment)} // 댓글 제출 처리 함수 -> 댓글 저장하는 api로 변경
-          />
-          {/* 댓글 불러오기 */}
-          <CommentsContainer comments={comments} />
-        </div>
+        <DiscussionContainer
+          profileImageUrl={logoImage}
+          onSubmit={handleSubmitComment}
+          comments={comments}
+        />
       </RoomDetailsContainer>
     </>
   );

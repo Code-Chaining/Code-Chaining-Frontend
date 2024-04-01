@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const CommentInputFormContainer = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   margin-top: 2.2vh;
 `;
 
@@ -18,9 +18,10 @@ export const CommentForm = styled.form`
 
 export const CommentInput = styled.input`
   width: 100%;
-  padding: 0.8vw;
+  padding: 1.2vh 0 1.2vh 0;
   border: none;
   border-radius: 0.4vw;
+  font-size: 16px;
   &:focus {
     outline: none;
   }
@@ -28,5 +29,5 @@ export const CommentInput = styled.input`
 
 export const Divider = styled.div`
   border-bottom: 0.1vw solid #ccc;
-  margin: 0 4vw 0 5vw;
+  margin: 0 4vw 0 0;
 `;

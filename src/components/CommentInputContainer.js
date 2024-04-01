@@ -24,9 +24,9 @@ const CommentInputContainer = ({ profileImageUrl, onSubmit }) => {
             name="comment"
             placeholder="댓글을 입력하세요."
           />
+          <Divider />
         </CommentForm>
       </CommentInputFormContainer>
-      <Divider />
     </div>
   );
 };
