@@ -20,30 +20,34 @@ import { comments } from "../data";
 import axios from "axios";
 
 export default function RoomDetails() {
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   let { roomId } = useParams();
+  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
-  const [title, setTitle] = useState("");
-  const [codeAndContents, setCodeAndContents] = useState("");
-  const [date, setDate] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [roomInfo, setRoomInfo] = useState({
+    title: "",
+    codeAndContents: "",
+    date: "",
+  });
 
   useEffect(() => {
-    const roomInfo = async () => {
+    const fetchRoomInfo = async () => {
       try {
         const response = await axios.get(
           `${apiBaseUrl}/room/info?roomId=${roomId}`
         );
-
-        setTitle(response.data.data.title);
-        setCodeAndContents(response.data.data.codeAndContents);
-        setDate(response.data.data.date);
+        const { title, codeAndContents, date } = response.data.data;
+        setRoomInfo({
+          title,
+          codeAndContents,
+          date,
+        });
       } catch (error) {
         console.log(error);
       }
     };
 
-    roomInfo();
+    fetchRoomInfo();
   }, [apiBaseUrl, roomId]);
 
   const handleEdit = () => {
@@ -51,8 +55,25 @@ export default function RoomDetails() {
     setIsEditing(true);
   };
 
-  const handleUpdateSave = () => {
-    // 서버에서 update api 호출
+  const updateRoomInfo = (field, value) => {
+    setRoomInfo((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleUpdateSave = async () => {
+    try {
+      await axios.put(`${apiBaseUrl}/room/${roomId}`, {
+        title: roomInfo.title,
+        codeAndContents: roomInfo.codeAndContents,
+      });
+
+      alert("방이 성공적으로 수정되었습니다!");
+    } catch (error) {
+      alert("수정에 실패했습니다.");
+    }
+
     setIsEditing(false);
   };
 
@@ -64,7 +85,7 @@ export default function RoomDetails() {
     setIsEditing(false);
   };
 
-  const markdownContent = renderMarkdown(codeAndContents);
+  const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
     <>
@@ -88,7 +109,11 @@ export default function RoomDetails() {
         </ButtonContainer>
       )}
       <RoomDetailsContainer>
-        <RoomTitle isEditing={isEditing} title={title} setTitle={setTitle} />
+        <RoomTitle
+          isEditing={isEditing}
+          title={roomInfo.title}
+          setTitle={(value) => updateRoomInfo("title", value)}
+        />
 
         <div>
           {!isEditing ? (
@@ -104,12 +129,13 @@ export default function RoomDetails() {
               <StyledTextArea
                 id="codeAndContents"
                 placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
-                value={codeAndContents}
-                onChange={(e) => setCodeAndContents(e.target.value)}
+                value={roomInfo.codeAndContents}
+                onChange={(e) =>
+                  updateRoomInfo("codeAndContents", e.target.value)
+                }
               />
               <StyledLabel>미리보기</StyledLabel>
               <MarkdownPreview>{markdownContent}</MarkdownPreview>
-              <StyledLabel>{date}</StyledLabel>
             </>
           )}
         </div>
