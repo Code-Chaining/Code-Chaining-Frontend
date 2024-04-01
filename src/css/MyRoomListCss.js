@@ -7,8 +7,8 @@ export const RoomList = styled.div`
   flex-direction: column;
   gap: 0.625vw;
   padding: 0.8125vw;
-  height: 85vh;
-  max-height: 85vh;
+  height: 70vh;
+  max-height: 70vh;
   overflow-y: scroll;
 `;
 
@@ -18,5 +18,4 @@ export const RoomTitle = styled.div`
   font-size: 1.25vw;
   font-weight: 400;
   text-align: center;
-  text-shadow: 0.125vw 0.125vw 0.25vw rgba(0, 0, 0, 0.5);
 `;

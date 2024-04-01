@@ -1,20 +1,23 @@
 import styled from "styled-components";
 
-export const LogoAndTextContainer = styled.div`
-  align-items: center;
+export const HeaderCss = styled.header`
+  height: 10vh;
   display: flex;
   border-radius: 1vw;
-  gap: 1.1vw;
-  padding-left: 3vw;
-  padding-top: 2vw;
-  padding-bottom: 2vw;
+  align-items: center;
   box-shadow: 0vw 0.4vw 0.6vw rgba(0, 0, 0, 0.1);
 `;
 
+export const LogoAndTextContainer = styled.div`
+  gap: 1.1vw;
+  margin-left: 30px;
+  alignitems: "center";
+`;
+
 export const Logo = styled.img`
-  height: 5vw;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  width: 5vw;
 `;
 
 export const Text = styled.div`
