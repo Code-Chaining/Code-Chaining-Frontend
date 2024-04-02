@@ -19,6 +19,7 @@ export const ButtonContainer = styled.div`
   position: relative;
   width: 95%;
   margin-top: 5vh;
+  padding-bottom: 5vh;
   z-index: 9;
 `;
 

@@ -1,12 +1,12 @@
+import { useEffect, useState } from "react";
 import { RoomList, RoomTitle } from "../css/MyRoomListCss.js";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { apiBaseUrl } from "../utils/apiConfig";
 
 export default function MyRoomList() {
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   let navigate = useNavigate();
 
   const [rooms, setRooms] = useState([]);
@@ -15,7 +15,7 @@ export default function MyRoomList() {
     const fetchRooms = async () => {
       try {
         const response = await axios.get(`${apiBaseUrl}/room/my`);
-        const roomsData = response.data.data.roomList.map((room) => ({
+        const roomsData = response.data.data.myRoomList.map((room) => ({
           roomId: room.roomId,
           title: room.title,
         }));
@@ -27,7 +27,7 @@ export default function MyRoomList() {
     };
 
     fetchRooms(apiBaseUrl, setRooms);
-  }, [apiBaseUrl]);
+  }, []);
 
   function handleRoomDetailPage(e, roomId) {
     e.stopPropagation();
@@ -41,6 +41,7 @@ export default function MyRoomList() {
         <Button
           key={room.roomId}
           title={room.title}
+          commentCount="1"
           // commentCount={room.commentCount}
           onClick={(e) => handleRoomDetailPage(e, room.roomId)}
         />

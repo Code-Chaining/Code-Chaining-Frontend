@@ -50,8 +50,9 @@ export const Button = styled.button`
   }
 `;
 
-export const CommentInput = styled.input`
-  width: 100%;
+export const CommentInput = styled.textarea`
+  width: 50vw;
+  height: 20vh;
   padding: 0.2vw 0.2vh;
   box-sizing: border-box;
   border: 1px solid #ccc;
@@ -63,4 +64,8 @@ export const CommentInput = styled.input`
     border-color: #4a90e2;
     box-shadow: 0 0 0 0.1vw rgba(74, 144, 226, 0.5);
   }
+`;
+
+export const CommentContents = styled.div`
+  white-space: pre-wrap;
 `;

@@ -5,6 +5,7 @@ import CommentsContainer from "./CommentsContainer";
 export default function DiscussionContainer({
   profileImageUrl,
   onSubmit,
+  roomId,
   comments,
 }) {
   return (

@@ -11,9 +11,9 @@ import Button from "./Button";
 import renderMarkdown from "../utils/renderMarkdown";
 import RoomTitle from "./RoomTitle";
 import axios from "axios";
+import { apiBaseUrl } from "../utils/apiConfig";
 
 export default function CreateRoom() {
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
   const [title, setTitle] = useState("");
   const [codeAndContents, setCodeAndContents] = useState("");
 

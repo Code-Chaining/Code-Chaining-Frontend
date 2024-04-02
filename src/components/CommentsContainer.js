@@ -9,35 +9,55 @@ import {
   CommentsFormContainer,
   Writer,
   CommentInput,
+  CommentContents,
 } from "../css/CommentsContainerCss";
+import axios from "axios";
+import { apiBaseUrl } from "../utils/apiConfig";
 
 export default function CommentsContainer({ comments }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editedText, setEditedText] = useState(""); // 편집된 댓글의 내용을 저장할 상태
+  const [editedContents, setEditedContents] = useState("");
 
-  // 댓글 수정 핸들러
   const handleEdit = (comment) => {
     setIsEditing(true);
     setEditingCommentId(comment.commentId);
-    setEditedText(comment.text);
-    // 여기에 댓글 수정 로직 구현
+    setEditedContents(comment.contents);
   };
 
-  // 댓글 삭제 핸들러
-  const handleDelete = (commentId) => {
-    // 여기에 댓글 삭제 로직 구현
-  };
-
-  // 댓글 저장 핸들러
-  const handleUpdateSave = () => {
-    setIsEditing(false);
-    // 여기에 댓글 저장 로직 구현
-  };
-
-  // 댓글 수정 취소 핸들러
   const handleCancel = () => {
     setIsEditing(false);
+  };
+
+  const handleUpdateSave = async () => {
+    try {
+      await axios.put(`${apiBaseUrl}/comment/${editingCommentId}`, {
+        contents: editedContents,
+      });
+
+      alert("댓글 수정에 성공했습니다!");
+    } catch (error) {
+      alert("댓글 수정에 실패했습니다!");
+    }
+    setIsEditing(false);
+    window.location.reload();
+  };
+
+  const handleDelete = async (commentId) => {
+    const isConfirmed = window.confirm("정말로 댓글을 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      try {
+        await axios.delete(`${apiBaseUrl}/comment/${commentId}`);
+
+        alert("댓글을 삭제하는데 성공했습니다!");
+        window.location.reload();
+      } catch (error) {
+        alert("댓글을 삭제하는데 실패했습니다..");
+      }
+    } else {
+      alert("댓글 삭제가 취소되었습니다.");
+    }
   };
 
   return (
@@ -46,18 +66,18 @@ export default function CommentsContainer({ comments }) {
         <CommentItem key={comment.commentId}>
           <ProfileImage src={logoImage} alt="Profile" />
           <CommentContent>
-            <Writer>{comment.writer}</Writer>
+            <Writer>{comment.name}</Writer>
             {isEditing && editingCommentId === comment.commentId ? (
               <div>
                 <CommentInput
                   type="text"
                   placeholder="댓글을 입력하세요."
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
+                  value={editedContents}
+                  onChange={(e) => setEditedContents(e.target.value)}
                 />
               </div>
             ) : (
-              <div>{comment.text}</div>
+              <CommentContents>{comment.contents}</CommentContents>
             )}
 
             {!isEditing || editingCommentId !== comment.commentId ? (
