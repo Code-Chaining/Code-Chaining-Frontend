@@ -9,15 +9,16 @@ import {
 } from "../css/ButtonCss";
 import CommentImage from "../assets/CommentImage.png";
 
-export default function Button({ title, name, commentCount, ...props }) {
+export default function Button({ title, writer, commentCount, ...props }) {
   return (
     <>
       {title !== undefined ? (
         <StyledButton {...props}>
           {title && <Title {...props}>{title}</Title>}
+
           {commentCount && (
             <NameAndCommentContainer {...props}>
-              <Name>{name}</Name>
+              <Name>{writer}</Name>
               <CommentContainer>
                 <Image src={CommentImage} alt="이미지 설명" />
                 <Comment>{commentCount}</Comment>

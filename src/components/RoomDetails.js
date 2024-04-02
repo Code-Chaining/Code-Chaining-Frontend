@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   StyledLabel,
   MarkdownPreview,
@@ -10,31 +10,34 @@ import { RoomDetailsContainer, Divider } from "../css/RoomDetailsCss";
 
 import Button from "./Button";
 import RoomTitle from "./RoomTitle";
+import DiscussionContainer from "./DiscussionContainer";
 import renderMarkdown from "../utils/renderMarkdown";
+import { apiBaseUrl } from "../utils/apiConfig";
 
 import logoImage from "../assets/Logo.png";
 
-import { comments } from "../data";
 import axios from "axios";
-import DiscussionContainer from "./DiscussionContainer";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
-  const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
   const [isEditing, setIsEditing] = useState(false);
+  const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
     title: "",
     codeAndContents: "",
     date: "",
   });
 
+  let navigate = useNavigate();
+  function handleMainPage() {
+    navigate("/");
+  }
+
   useEffect(() => {
     const fetchRoomInfo = async () => {
       try {
-        const response = await axios.get(
-          `${apiBaseUrl}/room/info?roomId=${roomId}`
-        );
+        const response = await axios.get(`${apiBaseUrl}/room/${roomId}`);
         const { title, codeAndContents, date } = response.data.data;
         setRoomInfo({
           title,
@@ -46,14 +49,33 @@ export default function RoomDetails() {
       }
     };
 
+    const fetchCommentList = async () => {
+      try {
+        // 로그인 후에 memberId를 반환한 후, comment의 작성자 Id와 로그인 한 memberId 비교해서 버튼 온오프
+        const response = await axios.get(`${apiBaseUrl}/comment/${roomId}`);
+        const commentsData = response.data.data.commentList.map((comment) => ({
+          commentId: comment.commentId,
+          memberId: comment.memberId,
+          name: comment.name,
+          contents: comment.contents,
+        }));
+        console.log(response.data.data);
+        setComments(commentsData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     fetchRoomInfo();
-  }, [apiBaseUrl, roomId]);
+    fetchCommentList();
+  }, [roomId]);
 
   const handleEdit = () => {
     // 수정 true, false -> 서버에서 room의 작성자와 memberId 같은지 구별해서 버튼 온오프
     setIsEditing(true);
   };
 
+  // 수정 된 값을 저장해둠.
   const updateRoomInfo = (field, value) => {
     setRoomInfo((prev) => ({
       ...prev,
@@ -76,17 +98,42 @@ export default function RoomDetails() {
     setIsEditing(false);
   };
 
-  const handleDelete = () => {
-    // 서버에서 delete api 호출 -> main화면으로 이동
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm("정말로 방을 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      try {
+        await axios.delete(`${apiBaseUrl}/room/${roomId}`);
+
+        alert("방을 삭제하는데 성공했습니다!");
+        handleMainPage();
+        window.location.reload();
+      } catch (error) {
+        alert("방을 삭제하는데 실패했습니다..");
+      }
+    } else {
+      alert("방 삭제가 취소되었습니다.");
+    }
   };
 
   const handleCancel = () => {
     setIsEditing(false);
   };
 
-  const handleSubmitComment = (comment) => {
-    // 댓글 저장하는 API 호출 로직 구현
-    console.log(comment);
+  const handleSubmitComment = async (comment) => {
+    const commentData = {
+      roomId: roomId,
+      contents: comment,
+    };
+
+    try {
+      await axios.post(`${apiBaseUrl}/comment/`, commentData);
+
+      alert("댓글이 작성되었습니다.");
+      window.location.reload();
+    } catch (error) {
+      alert("댓글 작성에 실패했습니다.");
+    }
   };
 
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
@@ -113,6 +160,7 @@ export default function RoomDetails() {
         </ButtonContainer>
       )}
       <RoomDetailsContainer>
+        <StyledLabel>{roomInfo.date}</StyledLabel>
         <RoomTitle
           isEditing={isEditing}
           title={roomInfo.title}
