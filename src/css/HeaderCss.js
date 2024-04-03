@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const HeaderCss = styled.header`
@@ -25,4 +26,13 @@ export const Text = styled.div`
   font-family: "Pretendard-Black", Helvetica;
   font-size: 1.3vw;
   font-weight: 900;
+`;
+
+export const StyledLink = styled(Link)`
+  color: inherit;
+  display: flex;
+  gap: 1.1vw;
+  height: 60px;
+  align-items: center;
+  text-decoration: none;
 `;
