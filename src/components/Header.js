@@ -6,9 +6,17 @@ import {
   Text,
   HeaderCss,
   StyledLink,
+  LoginButton,
 } from "../css/HeaderCss";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
+  let navigate = useNavigate();
+
+  function handleLoginPage() {
+    navigate("/login");
+  }
+
   return (
     <HeaderCss>
       <LogoAndTextContainer>
@@ -21,6 +29,7 @@ export default function Header() {
           </Text>
         </StyledLink>
       </LogoAndTextContainer>
+      <LoginButton onClick={handleLoginPage}>로그인</LoginButton>
     </HeaderCss>
   );
 }

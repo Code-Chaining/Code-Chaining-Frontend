@@ -6,13 +6,14 @@ export const HeaderCss = styled.header`
   display: flex;
   border-radius: 1vw;
   align-items: center;
+  justify-content: space-between;
   box-shadow: 0vw 0.4vw 0.6vw rgba(0, 0, 0, 0.1);
 `;
 
 export const LogoAndTextContainer = styled.div`
   gap: 1.1vw;
   margin-left: 30px;
-  alignitems: "center";
+  align-items: "center";
 `;
 
 export const Logo = styled.img`
@@ -25,7 +26,6 @@ export const Text = styled.div`
   color: #000000;
   font-family: "Pretendard-Black", Helvetica;
   font-size: 1.3vw;
-  font-weight: 900;
 `;
 
 export const StyledLink = styled(Link)`
@@ -35,4 +35,25 @@ export const StyledLink = styled(Link)`
   height: 60px;
   align-items: center;
   text-decoration: none;
+`;
+
+export const LoginButton = styled.button`
+  width: 10vw;
+  padding: 1vh;
+  margin-right: 2vw;
+  font-size: 1rem;
+  @media (min-width: 768px) {
+    font-size: 1rem;
+  }
+
+  border-radius: 0.375rem;
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #dedede;
+
+  cursor: pointer;
+  &:hover {
+    background-color: #434343;
+    color: #ffffff;
+  }
 `;
