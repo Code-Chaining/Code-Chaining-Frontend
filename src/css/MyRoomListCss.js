@@ -19,3 +19,13 @@ export const RoomTitle = styled.div`
   font-weight: 400;
   text-align: center;
 `;
+
+export const LoginPrompt = styled.div`
+  color: #f44336;
+  border-radius: 5px;
+  padding: 2vh;
+  margin: 2vh 0;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+`;
