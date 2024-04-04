@@ -57,7 +57,6 @@ export default function RoomDetails() {
           name: comment.name,
           contents: comment.contents,
         }));
-        console.log(response.data.data);
         setComments(commentsData);
       } catch (error) {
         console.log(error);
