@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import logoImage from "../assets/Logo.png";
 import kakaoLoginImage from "../assets/kakaoLogin.png";
@@ -10,6 +11,8 @@ import {
   KakaoLoginButton,
 } from "../css/LoginPageCss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { apiBaseUrl } from "../utils/apiConfig";
 
 export default function LoginPage() {
   let navigate = useNavigate();
@@ -23,12 +26,39 @@ export default function LoginPage() {
     const codeParam = urlParams.get("code");
 
     if (codeParam) {
-      console.log(codeParam);
-      // 서버에 인증 요청
-
-      handleMainPage();
+      axios({
+        method: "post",
+        url: "https://kauth.kakao.com/oauth/token",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        data: {
+          code: codeParam,
+          client_id: `${process.env.REACT_APP_KAKAO_CLIENT_ID}`,
+          grant_type: "authorization_code",
+          redirect_uri: `${process.env.REACT_APP_REDIRECT_URI}`,
+        },
+      })
+        .then((response) => {
+          return axios({
+            method: "post",
+            url: `${apiBaseUrl}/login/kakao`,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify({ idToken: response.data.id_token }),
+          });
+        })
+        .then((response) => {
+          // 이제 여기서 엑세스 토큰 발급받으면 된다.
+          console.log(response.data);
+          handleMainPage();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     }
-  }, []);
+  }, [handleMainPage]);
 
   const kakaoHandleLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
