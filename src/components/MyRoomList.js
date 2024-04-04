@@ -13,7 +13,6 @@ export default function MyRoomList() {
   const { isLoggedIn } = useAuth();
 
   useEffect(() => {
-    console.log(isLoggedIn);
     if (!isLoggedIn) {
       return;
     }
@@ -51,7 +50,7 @@ export default function MyRoomList() {
             <Button
               key={room.roomId}
               title={room.title}
-              commentCount="1" // 실제 commentCount를 사용하려면 이 주석을 해제하고 적절히 조정하세요.
+              commentCount="1"
               onClick={(e) => handleRoomDetailPage(e, room.roomId)}
             />
           ))}
