@@ -12,9 +12,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiBaseUrl } from "../utils/apiConfig";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {
   let navigate = useNavigate();
+  const { login } = useAuth();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,17 +47,14 @@ export default function LoginPage() {
           });
         })
         .then((response) => {
-          const { accessToken, refreshToken } = response.data.data;
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("refreshToken", refreshToken);
-
+          login(response.data.data);
           navigate("/");
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [navigate]);
+  }, [login, navigate]);
 
   const kakaoHandleLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;

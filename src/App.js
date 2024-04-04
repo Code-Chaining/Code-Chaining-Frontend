@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
 import Header from "./components/Header";
 import PublicRoomList from "./components/PublicRoomList";
 import RoomSidebar from "./components/RoomSidebar";
@@ -15,14 +16,16 @@ import LoginPage from "./components/LoginPage";
 function App() {
   return (
     <Router>
-      <PageLayout>
-        <Routes>
-          <Route path="/" element={<PublicRoomList />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/create-room" element={<CreateRoom />} />
-          <Route path="/room/:roomId" element={<RoomDetails />} />
-        </Routes>
-      </PageLayout>
+      <AuthProvider>
+        <PageLayout>
+          <Routes>
+            <Route path="/" element={<PublicRoomList />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/create-room" element={<CreateRoom />} />
+            <Route path="/room/:roomId" element={<RoomDetails />} />
+          </Routes>
+        </PageLayout>
+      </AuthProvider>
     </Router>
   );
 }
