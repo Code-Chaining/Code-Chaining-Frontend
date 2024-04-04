@@ -7,8 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-import axios from "axios";
-import { apiBaseUrl } from "../utils/apiConfig";
+import { axiosInstance } from "../utils/apiConfig";
 
 export default function PublicRoomList() {
   let navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function PublicRoomList() {
 
   useEffect(() => {
     const fetchRooms = async () => {
-      const response = await axios.get(`${apiBaseUrl}/room/public`);
+      const response = await axiosInstance.get(`/room/public`);
       try {
         const roomsData = response.data.data.publicRoomList.map((room) => ({
           roomId: room.roomId,
@@ -30,7 +29,7 @@ export default function PublicRoomList() {
       }
     };
 
-    fetchRooms(apiBaseUrl, setRooms);
+    fetchRooms();
   }, []);
 
   function handleRoomDetailPage(e, roomId) {

@@ -12,11 +12,9 @@ import Button from "./Button";
 import RoomTitle from "./RoomTitle";
 import DiscussionContainer from "./DiscussionContainer";
 import renderMarkdown from "../utils/renderMarkdown";
-import { apiBaseUrl } from "../utils/apiConfig";
+import { axiosInstance } from "../utils/apiConfig";
 
 import logoImage from "../assets/Logo.png";
-
-import axios from "axios";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
@@ -37,7 +35,7 @@ export default function RoomDetails() {
   useEffect(() => {
     const fetchRoomInfo = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/room/${roomId}`);
+        const response = await axiosInstance.get(`/room/${roomId}`);
         const { title, codeAndContents, date } = response.data.data;
         setRoomInfo({
           title,
@@ -52,7 +50,7 @@ export default function RoomDetails() {
     const fetchCommentList = async () => {
       try {
         // 로그인 후에 memberId를 반환한 후, comment의 작성자 Id와 로그인 한 memberId 비교해서 버튼 온오프
-        const response = await axios.get(`${apiBaseUrl}/comment/${roomId}`);
+        const response = await axiosInstance.get(`/comment/${roomId}`);
         const commentsData = response.data.data.commentList.map((comment) => ({
           commentId: comment.commentId,
           memberId: comment.memberId,
@@ -85,7 +83,7 @@ export default function RoomDetails() {
 
   const handleUpdateSave = async () => {
     try {
-      await axios.put(`${apiBaseUrl}/room/${roomId}`, {
+      await axiosInstance.put(`/room/${roomId}`, {
         title: roomInfo.title,
         codeAndContents: roomInfo.codeAndContents,
       });
@@ -103,7 +101,7 @@ export default function RoomDetails() {
 
     if (isConfirmed) {
       try {
-        await axios.delete(`${apiBaseUrl}/room/${roomId}`);
+        await axiosInstance.delete(`/room/${roomId}`);
 
         alert("방을 삭제하는데 성공했습니다!");
         handleMainPage();
@@ -127,7 +125,7 @@ export default function RoomDetails() {
     };
 
     try {
-      await axios.post(`${apiBaseUrl}/comment/`, commentData);
+      await axiosInstance.post(`/comment/`, commentData);
 
       alert("댓글이 작성되었습니다.");
       window.location.reload();

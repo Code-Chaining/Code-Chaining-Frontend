@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import logoImage from "../assets/Logo.png";
 import kakaoLoginImage from "../assets/kakaoLogin.png";
@@ -16,10 +15,6 @@ import { apiBaseUrl } from "../utils/apiConfig";
 
 export default function LoginPage() {
   let navigate = useNavigate();
-
-  function handleMainPage() {
-    navigate("/");
-  }
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -42,7 +37,7 @@ export default function LoginPage() {
         .then((response) => {
           return axios({
             method: "post",
-            url: `${apiBaseUrl}/login/kakao`,
+            url: `${apiBaseUrl}/kakao/token`,
             headers: {
               "Content-Type": "application/json",
             },
@@ -50,15 +45,17 @@ export default function LoginPage() {
           });
         })
         .then((response) => {
-          // 이제 여기서 엑세스 토큰 발급받으면 된다.
-          console.log(response.data);
-          handleMainPage();
+          const { accessToken, refreshToken } = response.data.data;
+          localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", refreshToken);
+
+          navigate("/");
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [handleMainPage]);
+  }, [navigate]);
 
   const kakaoHandleLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
