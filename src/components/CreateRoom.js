@@ -10,8 +10,7 @@ import {
 import Button from "./Button";
 import renderMarkdown from "../utils/renderMarkdown";
 import RoomTitle from "./RoomTitle";
-import axios from "axios";
-import { apiBaseUrl } from "../utils/apiConfig";
+import { axiosInstance } from "../utils/apiConfig";
 
 export default function CreateRoom() {
   const [title, setTitle] = useState("");
@@ -31,8 +30,8 @@ export default function CreateRoom() {
       codeAndContents: codeAndContents,
     };
 
-    axios
-      .post(`${apiBaseUrl}/room/`, roomData)
+    axiosInstance
+      .post(`/room/`, roomData)
       .then((response) => {
         alert("방이 성공적으로 생성되었습니다!");
         handleMainPage();

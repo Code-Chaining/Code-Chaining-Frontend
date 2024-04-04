@@ -3,8 +3,7 @@ import { RoomList, RoomTitle } from "../css/MyRoomListCss.js";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-import axios from "axios";
-import { apiBaseUrl } from "../utils/apiConfig";
+import { axiosInstance } from "../utils/apiConfig";
 
 export default function MyRoomList() {
   let navigate = useNavigate();
@@ -14,7 +13,7 @@ export default function MyRoomList() {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const response = await axios.get(`${apiBaseUrl}/room/my`);
+        const response = await axiosInstance.get(`/room/my`);
         const roomsData = response.data.data.myRoomList.map((room) => ({
           roomId: room.roomId,
           title: room.title,
@@ -26,7 +25,7 @@ export default function MyRoomList() {
       }
     };
 
-    fetchRooms(apiBaseUrl, setRooms);
+    fetchRooms();
   }, []);
 
   function handleRoomDetailPage(e, roomId) {

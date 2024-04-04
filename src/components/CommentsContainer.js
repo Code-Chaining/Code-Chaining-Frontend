@@ -11,8 +11,7 @@ import {
   CommentInput,
   CommentContents,
 } from "../css/CommentsContainerCss";
-import axios from "axios";
-import { apiBaseUrl } from "../utils/apiConfig";
+import { axiosInstance } from "../utils/apiConfig";
 
 export default function CommentsContainer({ comments }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,7 +30,7 @@ export default function CommentsContainer({ comments }) {
 
   const handleUpdateSave = async () => {
     try {
-      await axios.put(`${apiBaseUrl}/comment/${editingCommentId}`, {
+      await axiosInstance.put(`/comment/${editingCommentId}`, {
         contents: editedContents,
       });
 
@@ -48,7 +47,7 @@ export default function CommentsContainer({ comments }) {
 
     if (isConfirmed) {
       try {
-        await axios.delete(`${apiBaseUrl}/comment/${commentId}`);
+        await axiosInstance.delete(`/comment/${commentId}`);
 
         alert("댓글을 삭제하는데 성공했습니다!");
         window.location.reload();
