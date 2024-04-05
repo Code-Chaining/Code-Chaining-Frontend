@@ -56,6 +56,7 @@ export const StyledLabel = styled.label`
   display: block;
   margin: 1vw 0;
   font-weight: bold;
+  font-size: 1.4rem;
 `;
 
 export const MarkdownPreview = styled.div`

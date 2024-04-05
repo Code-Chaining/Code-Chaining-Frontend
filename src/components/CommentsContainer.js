@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logoImage from "../assets/Logo.png";
 import { ProfileImage } from "../css/CommentInputSectionCss";
 import {
   Button,
@@ -13,7 +12,7 @@ import {
 } from "../css/CommentsContainerCss";
 import { axiosInstance } from "../utils/apiConfig";
 
-export default function CommentsContainer({ comments, isLoggedIn }) {
+export default function CommentsContainer({ comments, isLoggedIn, userInfo }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContents, setEditedContents] = useState("");
@@ -63,9 +62,9 @@ export default function CommentsContainer({ comments, isLoggedIn }) {
     <CommentsFormContainer>
       {comments.map((comment) => (
         <CommentItem key={comment.commentId}>
-          <ProfileImage src={logoImage} alt="Profile" />
+          <ProfileImage src={comment.picture} alt="Profile" />
           <CommentContent>
-            <Writer>{comment.name}</Writer>
+            <Writer>{comment.nickname}</Writer>
             {isEditing && editingCommentId === comment.commentId ? (
               <div>
                 <CommentInput
@@ -79,9 +78,7 @@ export default function CommentsContainer({ comments, isLoggedIn }) {
               <CommentContents>{comment.contents}</CommentContents>
             )}
 
-            {isLoggedIn === false ? (
-              <></>
-            ) : (
+            {isLoggedIn && userInfo.memberId === comment.memberId ? (
               <>
                 {!isEditing || editingCommentId !== comment.commentId ? (
                   <ButtonContainer>
@@ -119,6 +116,8 @@ export default function CommentsContainer({ comments, isLoggedIn }) {
                   </ButtonContainer>
                 )}
               </>
+            ) : (
+              <></>
             )}
           </CommentContent>
         </CommentItem>
