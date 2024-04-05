@@ -7,7 +7,9 @@ export const RoomDetailsContainer = styled.div`
   gap: 1.25vw;
   position: relative;
   width: 80vw;
+  height: 90vh;
   margin: 0 0 0 22vw;
+  overflow: scroll;
   z-index: 6;
 `;
 
