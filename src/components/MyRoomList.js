@@ -23,6 +23,7 @@ export default function MyRoomList() {
         const roomsData = response.data.data.myRoomList.map((room) => ({
           roomId: room.roomId,
           title: room.title,
+          commentCount: room.commentCount,
         }));
 
         setRooms(roomsData);
@@ -43,14 +44,14 @@ export default function MyRoomList() {
     <RoomList>
       <RoomTitle>내 토론 방</RoomTitle>
       {isLoggedIn === false ? (
-        <LoginPrompt>로그인이 필요해요 🚀</LoginPrompt>
+        <LoginPrompt>[로그인이 필요한 서비스]</LoginPrompt>
       ) : (
         <>
           {rooms.map((room) => (
             <Button
               key={room.roomId}
               title={room.title}
-              commentCount="1"
+              commentCount={room.commentCount}
               onClick={(e) => handleRoomDetailPage(e, room.roomId)}
             />
           ))}
