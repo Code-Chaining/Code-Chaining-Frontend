@@ -7,8 +7,10 @@ export const CreateRoomForm = styled.div`
   gap: 1.25vw;
   position: relative;
   width: 80vw;
+  height: 90vh;
   margin: 4vh 0 0 22vw;
   z-index: 6;
+  overflow: scroll;
 `;
 
 export const ButtonContainer = styled.div`
