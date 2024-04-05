@@ -16,9 +16,13 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function LoginPage() {
   let navigate = useNavigate();
-  const { login } = useAuth();
+  const { isLoggedIn, login } = useAuth();
 
   useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     const codeParam = urlParams.get("code");
 
@@ -49,12 +53,13 @@ export default function LoginPage() {
         .then((response) => {
           login(response.data.data);
           navigate("/");
+          window.location.reload();
         })
         .catch((error) => {
           console.error(error);
         });
     }
-  }, [login, navigate]);
+  }, [isLoggedIn, login, navigate]);
 
   const kakaoHandleLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;

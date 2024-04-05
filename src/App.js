@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
-import Header from "./components/Header";
+import Header from "./components/header/Header";
 import PublicRoomList from "./components/PublicRoomList";
 import RoomSidebar from "./components/RoomSidebar";
 import CreateRoom from "./components/CreateRoom";

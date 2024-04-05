@@ -13,7 +13,7 @@ export const HeaderCss = styled.header`
 export const LogoAndTextContainer = styled.div`
   gap: 1.1vw;
   margin-left: 30px;
-  align-items: "center";
+  align-items: center;
 `;
 
 export const Logo = styled.img`
@@ -55,5 +55,48 @@ export const LoginButton = styled.button`
   &:hover {
     background-color: #434343;
     color: #ffffff;
+  }
+`;
+
+export const MyProfileContainer = styled.div`
+  display: flex;
+  gap: 0.4vw;
+  padding: 0.7vw;
+  margin-right: 1.5vw;
+  border-radius: 0.375rem;
+  align-items: center;
+`;
+
+export const MyProfileImage = styled.img`
+  width: 3vw;
+  object-fit: cover;
+`;
+
+export const MyProfileText = styled.div`
+  color: #000000;
+  font-family: "Pretendard", Helvetica;
+  font-size: 1.2vw;
+`;
+
+export const LogoutButton = styled.button`
+  width: 2.5vw;
+  margin-left: 0.2vw;
+  padding: 0 0.2vw 0 0.2vw;
+  font-size: 0.7rem;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-left: 1px solid rgba(169, 169, 169, 0.4);
+
+  cursor: pointer;
+  &:hover {
+    color: #ffffff;
+  }
+
+  img {
+    width: 100%;
+    padding-top: 0.2vh;
+    padding-left: 0.2vw;
+
+    object-fit: cover;
   }
 `;

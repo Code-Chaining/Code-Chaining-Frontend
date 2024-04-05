@@ -1,21 +1,20 @@
 import React from "react";
-import logoImage from "../assets/Logo.png";
+import logoImage from "../../assets/Logo.png";
+
 import {
   LogoAndTextContainer,
   Logo,
   Text,
   HeaderCss,
   StyledLink,
-  LoginButton,
-} from "../css/HeaderCss";
-import { useNavigate } from "react-router-dom";
+} from "../../css/HeaderCss";
+
+import { useAuth } from "../../contexts/AuthContext";
+import AuthenticatedHeader from "./AuthenticatedHeader";
+import UnauthenticatedHeader from "./UnauthenticatedHeader";
 
 export default function Header() {
-  let navigate = useNavigate();
-
-  function handleLoginPage() {
-    navigate("/login");
-  }
+  const { isLoggedIn } = useAuth();
 
   return (
     <HeaderCss>
@@ -29,7 +28,7 @@ export default function Header() {
           </Text>
         </StyledLink>
       </LogoAndTextContainer>
-      <LoginButton onClick={handleLoginPage}>로그인</LoginButton>
+      {isLoggedIn ? <AuthenticatedHeader /> : <UnauthenticatedHeader />}
     </HeaderCss>
   );
 }

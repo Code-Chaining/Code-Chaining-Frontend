@@ -14,19 +14,19 @@ import DiscussionContainer from "./DiscussionContainer";
 import renderMarkdown from "../utils/renderMarkdown";
 import { axiosInstance } from "../utils/apiConfig";
 
-import logoImage from "../assets/Logo.png";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
 
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, userInfo } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
     title: "",
     codeAndContents: "",
     date: "",
+    memberId: "",
   });
 
   let navigate = useNavigate();
@@ -38,11 +38,12 @@ export default function RoomDetails() {
     const fetchRoomInfo = async () => {
       try {
         const response = await axiosInstance.get(`/room/${roomId}`);
-        const { title, codeAndContents, date } = response.data.data;
+        const { title, codeAndContents, date, memberId } = response.data.data;
         setRoomInfo({
           title,
           codeAndContents,
           date,
+          memberId,
         });
       } catch (error) {
         console.log(error);
@@ -51,12 +52,12 @@ export default function RoomDetails() {
 
     const fetchCommentList = async () => {
       try {
-        // 로그인 후에 memberId를 반환한 후, comment의 작성자 Id와 로그인 한 memberId 비교해서 버튼 온오프
         const response = await axiosInstance.get(`/comment/${roomId}`);
         const commentsData = response.data.data.commentList.map((comment) => ({
           commentId: comment.commentId,
           memberId: comment.memberId,
-          name: comment.name,
+          nickname: comment.nickname,
+          picture: comment.picture,
           contents: comment.contents,
         }));
         setComments(commentsData);
@@ -70,11 +71,9 @@ export default function RoomDetails() {
   }, [roomId]);
 
   const handleEdit = () => {
-    // 수정 true, false -> 서버에서 room의 작성자와 memberId 같은지 구별해서 버튼 온오프
     setIsEditing(true);
   };
 
-  // 수정 된 값을 저장해둠.
   const updateRoomInfo = (field, value) => {
     setRoomInfo((prev) => ({
       ...prev,
@@ -139,9 +138,7 @@ export default function RoomDetails() {
 
   return (
     <>
-      {isLoggedIn === false ? (
-        <></>
-      ) : (
+      {isLoggedIn && userInfo.memberId === roomInfo.memberId ? (
         <>
           {!isEditing ? (
             <ButtonContainer>
@@ -163,6 +160,8 @@ export default function RoomDetails() {
             </ButtonContainer>
           )}
         </>
+      ) : (
+        <></>
       )}
 
       <RoomDetailsContainer>
@@ -201,9 +200,11 @@ export default function RoomDetails() {
 
         {/* 토론의 장 */}
         <DiscussionContainer
-          profileImageUrl={logoImage}
+          profileImageUrl={userInfo.picture}
           onSubmit={handleSubmitComment}
           comments={comments}
+          isLoggedIn={isLoggedIn}
+          userInfo={userInfo}
         />
       </RoomDetailsContainer>
     </>
