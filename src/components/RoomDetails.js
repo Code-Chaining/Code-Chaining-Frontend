@@ -137,7 +137,7 @@ export default function RoomDetails() {
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
-    <>
+    <RoomDetailsContainer>
       {isLoggedIn && userInfo.memberId === roomInfo.memberId ? (
         <>
           {!isEditing ? (
@@ -164,49 +164,47 @@ export default function RoomDetails() {
         <></>
       )}
 
-      <RoomDetailsContainer>
-        <StyledLabel>{roomInfo.date}</StyledLabel>
-        <RoomTitle
-          isEditing={isEditing}
-          title={roomInfo.title}
-          setTitle={(value) => updateRoomInfo("title", value)}
-        />
+      <StyledLabel>{roomInfo.date}</StyledLabel>
+      <RoomTitle
+        isEditing={isEditing}
+        title={roomInfo.title}
+        setTitle={(value) => updateRoomInfo("title", value)}
+      />
 
-        <div>
-          {!isEditing ? (
-            <>
-              <StyledLabel>코드 & 내용</StyledLabel>
-              <MarkdownPreview>{markdownContent}</MarkdownPreview>
-            </>
-          ) : (
-            <>
-              <StyledLabel>
-                코드 & 내용을 입력하세요. (Markdown을 지원합니다.)
-              </StyledLabel>
-              <StyledTextArea
-                id="codeAndContents"
-                placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
-                value={roomInfo.codeAndContents}
-                onChange={(e) =>
-                  updateRoomInfo("codeAndContents", e.target.value)
-                }
-              />
-              <StyledLabel>미리보기</StyledLabel>
-              <MarkdownPreview>{markdownContent}</MarkdownPreview>
-            </>
-          )}
-        </div>
-        <Divider />
+      <div>
+        {!isEditing ? (
+          <>
+            <StyledLabel>코드 & 내용</StyledLabel>
+            <MarkdownPreview>{markdownContent}</MarkdownPreview>
+          </>
+        ) : (
+          <>
+            <StyledLabel>
+              코드 & 내용을 입력하세요. (Markdown을 지원합니다.)
+            </StyledLabel>
+            <StyledTextArea
+              id="codeAndContents"
+              placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
+              value={roomInfo.codeAndContents}
+              onChange={(e) =>
+                updateRoomInfo("codeAndContents", e.target.value)
+              }
+            />
+            <StyledLabel>미리보기</StyledLabel>
+            <MarkdownPreview>{markdownContent}</MarkdownPreview>
+          </>
+        )}
+      </div>
+      <Divider />
 
-        {/* 토론의 장 */}
-        <DiscussionContainer
-          profileImageUrl={userInfo.picture}
-          onSubmit={handleSubmitComment}
-          comments={comments}
-          isLoggedIn={isLoggedIn}
-          userInfo={userInfo}
-        />
-      </RoomDetailsContainer>
-    </>
+      {/* 토론의 장 */}
+      <DiscussionContainer
+        profileImageUrl={userInfo.picture}
+        onSubmit={handleSubmitComment}
+        comments={comments}
+        isLoggedIn={isLoggedIn}
+        userInfo={userInfo}
+      />
+    </RoomDetailsContainer>
   );
 }

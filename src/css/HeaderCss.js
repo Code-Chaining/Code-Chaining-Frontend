@@ -69,6 +69,7 @@ export const MyProfileContainer = styled.div`
 
 export const MyProfileImage = styled.img`
   width: 3vw;
+  border-radius: 50%;
   object-fit: cover;
 `;
 
