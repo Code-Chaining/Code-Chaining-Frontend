@@ -54,7 +54,7 @@ export const StyledTextArea = styled.textarea`
 
 export const StyledLabel = styled.label`
   display: block;
-  margin: 0.5vw 0;
+  margin: 1vw 0;
   font-weight: bold;
 `;
 

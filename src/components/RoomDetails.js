@@ -15,10 +15,12 @@ import renderMarkdown from "../utils/renderMarkdown";
 import { axiosInstance } from "../utils/apiConfig";
 
 import logoImage from "../assets/Logo.png";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
 
+  const { isLoggedIn } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
@@ -137,25 +139,32 @@ export default function RoomDetails() {
 
   return (
     <>
-      {!isEditing ? (
-        <ButtonContainer>
-          <Button $variant="edit" type="button" onClick={handleEdit}>
-            수정
-          </Button>
-          <Button $variant="delete" type="button" onClick={handleDelete}>
-            삭제
-          </Button>
-        </ButtonContainer>
+      {isLoggedIn === false ? (
+        <></>
       ) : (
-        <ButtonContainer>
-          <Button $variant="cancel" type="button" onClick={handleCancel}>
-            취소
-          </Button>
-          <Button $variant="save" type="submit" onClick={handleUpdateSave}>
-            저장
-          </Button>
-        </ButtonContainer>
+        <>
+          {!isEditing ? (
+            <ButtonContainer>
+              <Button $variant="edit" type="button" onClick={handleEdit}>
+                수정
+              </Button>
+              <Button $variant="delete" type="button" onClick={handleDelete}>
+                삭제
+              </Button>
+            </ButtonContainer>
+          ) : (
+            <ButtonContainer>
+              <Button $variant="cancel" type="button" onClick={handleCancel}>
+                취소
+              </Button>
+              <Button $variant="save" type="submit" onClick={handleUpdateSave}>
+                저장
+              </Button>
+            </ButtonContainer>
+          )}
+        </>
       )}
+
       <RoomDetailsContainer>
         <StyledLabel>{roomInfo.date}</StyledLabel>
         <RoomTitle

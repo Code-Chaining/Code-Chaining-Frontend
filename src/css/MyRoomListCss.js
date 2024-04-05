@@ -21,11 +21,12 @@ export const RoomTitle = styled.div`
 `;
 
 export const LoginPrompt = styled.div`
-  color: #f44336;
+  color: #979797;
   border-radius: 5px;
-  padding: 2vh;
-  margin: 2vh 0;
+  font-family: "Pretendard-Regular", Helvetica;
+  padding: 1.5vh;
+  margin: 1vh 0;
   text-align: center;
-  font-size: 1.2rem;
-  font-weight: bold;
+  opacity: 0.8;
+  font-size: 1.05rem;
 `;

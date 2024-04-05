@@ -13,7 +13,7 @@ import {
 } from "../css/CommentsContainerCss";
 import { axiosInstance } from "../utils/apiConfig";
 
-export default function CommentsContainer({ comments }) {
+export default function CommentsContainer({ comments, isLoggedIn }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContents, setEditedContents] = useState("");
@@ -79,36 +79,46 @@ export default function CommentsContainer({ comments }) {
               <CommentContents>{comment.contents}</CommentContents>
             )}
 
-            {!isEditing || editingCommentId !== comment.commentId ? (
-              <ButtonContainer>
-                <Button
-                  $variant="edit"
-                  type="button"
-                  onClick={() => handleEdit(comment)}
-                >
-                  수정
-                </Button>
-                <Button
-                  $variant="delete"
-                  type="button"
-                  onClick={() => handleDelete(comment.commentId)}
-                >
-                  삭제
-                </Button>
-              </ButtonContainer>
+            {isLoggedIn === false ? (
+              <></>
             ) : (
-              <ButtonContainer>
-                <Button $variant="cancel" type="button" onClick={handleCancel}>
-                  취소
-                </Button>
-                <Button
-                  $variant="save"
-                  type="submit"
-                  onClick={handleUpdateSave}
-                >
-                  저장
-                </Button>
-              </ButtonContainer>
+              <>
+                {!isEditing || editingCommentId !== comment.commentId ? (
+                  <ButtonContainer>
+                    <Button
+                      $variant="edit"
+                      type="button"
+                      onClick={() => handleEdit(comment)}
+                    >
+                      수정
+                    </Button>
+                    <Button
+                      $variant="delete"
+                      type="button"
+                      onClick={() => handleDelete(comment.commentId)}
+                    >
+                      삭제
+                    </Button>
+                  </ButtonContainer>
+                ) : (
+                  <ButtonContainer>
+                    <Button
+                      $variant="cancel"
+                      type="button"
+                      onClick={handleCancel}
+                    >
+                      취소
+                    </Button>
+                    <Button
+                      $variant="save"
+                      type="submit"
+                      onClick={handleUpdateSave}
+                    >
+                      저장
+                    </Button>
+                  </ButtonContainer>
+                )}
+              </>
             )}
           </CommentContent>
         </CommentItem>

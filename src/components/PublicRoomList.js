@@ -22,6 +22,7 @@ export default function PublicRoomList() {
           roomId: room.roomId,
           title: room.title,
           writer: room.writer,
+          commentCount: room.commentCount,
         }));
         setRooms(roomsData);
       } catch (error) {
@@ -47,8 +48,7 @@ export default function PublicRoomList() {
             key={room.roomId}
             title={room.title}
             writer={room.writer}
-            commentCount="1"
-            // commentCount={room.commentCount}
+            commentCount={room.commentCount}
             size="large"
             onClick={(e) => handleRoomDetailPage(e, room.roomId)}
           />
