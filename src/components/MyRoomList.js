@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { RoomList, RoomTitle, LoginPrompt } from "../css/MyRoomListCss.js";
+import {
+  RoomList,
+  RoomTitle,
+  LoginPrompt,
+  NoRoomMessage,
+} from "../css/MyRoomListCss.js";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
@@ -47,14 +52,22 @@ export default function MyRoomList() {
         <LoginPrompt>[로그인이 필요한 서비스]</LoginPrompt>
       ) : (
         <>
-          {rooms.map((room) => (
-            <Button
-              key={room.roomId}
-              title={room.title}
-              commentCount={room.commentCount}
-              onClick={(e) => handleRoomDetailPage(e, room.roomId)}
-            />
-          ))}
+          {rooms.length > 0 ? (
+            rooms.map((room) => (
+              <Button
+                key={room.roomId}
+                title={room.title}
+                commentCount={room.commentCount}
+                onClick={(e) => handleRoomDetailPage(e, room.roomId)}
+              />
+            ))
+          ) : (
+            <NoRoomMessage>
+              내 토론 방이 없습니다!
+              <br />
+              방을 생성하여 함께 토론해보세요!
+            </NoRoomMessage>
+          )}
         </>
       )}
     </RoomList>
