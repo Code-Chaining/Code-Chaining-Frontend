@@ -6,7 +6,14 @@ import {
   ButtonContainer,
   StyledTextArea,
 } from "../css/CreateRoomCss";
-import { RoomDetailsContainer, Divider } from "../css/RoomDetailsCss";
+import {
+  RoomDetailsContainer,
+  Divider,
+  RoomInfoAndButtonContainer,
+  RoomInfoContainer,
+  Nickname,
+  ProfileImage,
+} from "../css/RoomDetailsCss";
 
 import Button from "./Button";
 import RoomTitle from "./RoomTitle";
@@ -27,6 +34,8 @@ export default function RoomDetails() {
     codeAndContents: "",
     date: "",
     memberId: "",
+    nickname: "",
+    picture: "",
   });
 
   let navigate = useNavigate();
@@ -38,12 +47,15 @@ export default function RoomDetails() {
     const fetchRoomInfo = async () => {
       try {
         const response = await axiosInstance.get(`/room/${roomId}`);
-        const { title, codeAndContents, date, memberId } = response.data.data;
+        const { title, codeAndContents, date, memberId, nickname, picture } =
+          response.data.data;
         setRoomInfo({
           title,
           codeAndContents,
           date,
           memberId,
+          nickname,
+          picture,
         });
       } catch (error) {
         console.log(error);
@@ -138,31 +150,41 @@ export default function RoomDetails() {
 
   return (
     <RoomDetailsContainer>
-      {isLoggedIn && userInfo.memberId === roomInfo.memberId ? (
-        <>
-          {!isEditing ? (
-            <ButtonContainer>
-              <Button $variant="edit" type="button" onClick={handleEdit}>
-                수정
-              </Button>
-              <Button $variant="delete" type="button" onClick={handleDelete}>
-                삭제
-              </Button>
-            </ButtonContainer>
-          ) : (
-            <ButtonContainer>
-              <Button $variant="cancel" type="button" onClick={handleCancel}>
-                취소
-              </Button>
-              <Button $variant="save" type="submit" onClick={handleUpdateSave}>
-                저장
-              </Button>
-            </ButtonContainer>
-          )}
-        </>
-      ) : (
-        <></>
-      )}
+      <RoomInfoAndButtonContainer>
+        <RoomInfoContainer>
+          <ProfileImage src={roomInfo.picture} alt="프로필 이미지" />
+          <Nickname>{roomInfo.nickname}</Nickname>
+        </RoomInfoContainer>
+        {isLoggedIn && userInfo.memberId === roomInfo.memberId ? (
+          <>
+            {!isEditing ? (
+              <ButtonContainer>
+                <Button $variant="edit" type="button" onClick={handleEdit}>
+                  수정
+                </Button>
+                <Button $variant="delete" type="button" onClick={handleDelete}>
+                  삭제
+                </Button>
+              </ButtonContainer>
+            ) : (
+              <ButtonContainer>
+                <Button $variant="cancel" type="button" onClick={handleCancel}>
+                  취소
+                </Button>
+                <Button
+                  $variant="save"
+                  type="submit"
+                  onClick={handleUpdateSave}
+                >
+                  저장
+                </Button>
+              </ButtonContainer>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
+      </RoomInfoAndButtonContainer>
 
       <StyledLabel>{roomInfo.date}</StyledLabel>
       <RoomTitle

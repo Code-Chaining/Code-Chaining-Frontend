@@ -43,7 +43,7 @@ export const Title = styled.span`
   margin: 0.66vh 0 0 0.3vw;
   color: #000000;
   font-family: Pretendard, var(--default-font-family);
-  font-size: ${(props) => (props.size === "large" ? "1.3vw" : "1vw")};
+  font-size: ${(props) => (props.size === "large" ? "1.2vw" : "1vw")};
   font-weight: 700;
   line-height: 3vh;
   text-align: left;

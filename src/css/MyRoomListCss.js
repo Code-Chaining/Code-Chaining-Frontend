@@ -22,11 +22,19 @@ export const RoomTitle = styled.div`
 
 export const LoginPrompt = styled.div`
   color: #979797;
-  border-radius: 5px;
   font-family: "Pretendard-Regular", Helvetica;
   padding: 1.5vh;
   margin: 1vh 0;
   text-align: center;
+  opacity: 0.8;
+  font-size: 1.05rem;
+`;
+
+export const NoRoomMessage = styled.div`
+  color: #979797;
+  text-align: center;
+  font-family: "Pretendard-Regular", Helvetica;
+  margin: 1vh 0;
   opacity: 0.8;
   font-size: 1.05rem;
 `;

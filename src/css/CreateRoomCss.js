@@ -19,9 +19,9 @@ export const ButtonContainer = styled.div`
   flex-wrap: nowrap;
   gap: 1.25vw;
   position: relative;
-  width: 95%;
-  margin-top: 5vh;
-  padding-bottom: 5vh;
+  margin-right: 4vw;
+  // margin-top: 5vh;
+  // padding-bottom: 5vh;
   z-index: 9;
 `;
 
