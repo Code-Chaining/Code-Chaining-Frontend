@@ -32,10 +32,9 @@ export default function CreateRoom() {
 
     axiosInstance
       .post(`/room/`, roomData)
-      .then((response) => {
+      .then(() => {
         alert("방이 성공적으로 생성되었습니다!");
         handleMainPage();
-        window.location.reload();
       })
       .catch((error) => {
         alert("방 생성에 실패했습니다.");

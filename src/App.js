@@ -13,21 +13,33 @@ import CreateRoom from "./components/CreateRoom";
 import RoomDetails from "./components/RoomDetails";
 import LoginPage from "./components/LoginPage";
 import styled from "styled-components";
+import { RoomProvider } from "./contexts/RoomContext";
+import MyRoomList from "./components/MyRoomList";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <PageLayout>
-          <AppContainer>
-            <Routes>
-              <Route path="/" element={<PublicRoomList />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/create-room" element={<CreateRoom />} />
-              <Route path="/room/:roomId" element={<RoomDetails />} />
-            </Routes>
-          </AppContainer>
-        </PageLayout>
+        <RoomProvider>
+          <PageLayout>
+            <AppContainer>
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <PublicRoomList />
+                      <MyRoomList />
+                    </>
+                  }
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/create-room" element={<CreateRoom />} />
+                <Route path="/room/:roomId" element={<RoomDetails />} />
+              </Routes>
+            </AppContainer>
+          </PageLayout>
+        </RoomProvider>
       </AuthProvider>
     </Router>
   );

@@ -22,11 +22,13 @@ import renderMarkdown from "../utils/renderMarkdown";
 import { axiosInstance } from "../utils/apiConfig";
 
 import { useAuth } from "../contexts/AuthContext";
+import { useRooms } from "../contexts/RoomContext";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
 
   const { isLoggedIn, userInfo } = useAuth();
+  const { removeRoomFromList } = useRooms();
   const [isEditing, setIsEditing] = useState(false);
   const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
@@ -116,8 +118,8 @@ export default function RoomDetails() {
         await axiosInstance.delete(`/room/${roomId}`);
 
         alert("방을 삭제하는데 성공했습니다!");
+        removeRoomFromList();
         handleMainPage();
-        window.location.reload();
       } catch (error) {
         alert("방을 삭제하는데 실패했습니다..");
       }
@@ -137,10 +139,11 @@ export default function RoomDetails() {
     };
 
     try {
-      await axiosInstance.post(`/comment/`, commentData);
+      const response = await axiosInstance.post(`/comment/`, commentData);
+      const newComment = response.data.data;
 
+      setComments((prevComments) => [...prevComments, newComment]);
       alert("댓글이 작성되었습니다.");
-      window.location.reload();
     } catch (error) {
       alert("댓글 작성에 실패했습니다.");
     }

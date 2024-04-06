@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   PublicRoom,
   PublicRoomSpan,
@@ -7,30 +7,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
 
-import { axiosInstance } from "../utils/apiConfig";
+import { useRooms } from "../contexts/RoomContext";
 
 export default function PublicRoomList() {
   let navigate = useNavigate();
 
-  const [rooms, setRooms] = useState([]);
+  const { publicRooms, publicFetchRooms } = useRooms();
 
   useEffect(() => {
-    const fetchRooms = async () => {
-      const response = await axiosInstance.get(`/room/public`);
-      try {
-        const roomsData = response.data.data.publicRoomList.map((room) => ({
-          roomId: room.roomId,
-          title: room.title,
-          writer: room.writer,
-          commentCount: room.commentCount,
-        }));
-        setRooms(roomsData);
-      } catch (error) {
-        console.error(response);
-      }
-    };
-
-    fetchRooms();
+    publicFetchRooms();
   }, []);
 
   function handleRoomDetailPage(e, roomId) {
@@ -42,7 +27,7 @@ export default function PublicRoomList() {
     <PublicRoom>
       <PublicRoomSpan>공개 방</PublicRoomSpan>
       <PublicRoomDiv>
-        {rooms.map((room) => (
+        {publicRooms.map((room) => (
           <Button
             key={room.roomId}
             title={room.title}

@@ -31,6 +31,7 @@ export function AuthProvider({ children }) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
     setIsLoggedIn(true);
+    fetchMemberInfo();
   };
 
   const logout = () => {
