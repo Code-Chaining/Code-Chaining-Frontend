@@ -29,7 +29,11 @@ export default function RoomDetails() {
 
   const { isLoggedIn, userInfo } = useAuth();
   const { removeRoomFromList } = useRooms();
-  const [isEditing, setIsEditing] = useState(false);
+  const [isRoomEditing, setIsRoomEditing] = useState(false);
+  const [isCommentEditing, setIsCommentEditing] = useState(false);
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editedContents, setEditedContents] = useState("");
+
   const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
     title: "",
@@ -85,7 +89,7 @@ export default function RoomDetails() {
   }, [roomId]);
 
   const handleEdit = () => {
-    setIsEditing(true);
+    setIsRoomEditing(true);
   };
 
   const updateRoomInfo = (field, value) => {
@@ -107,7 +111,7 @@ export default function RoomDetails() {
       alert("수정에 실패했습니다.");
     }
 
-    setIsEditing(false);
+    setIsRoomEditing(false);
   };
 
   const handleDelete = async () => {
@@ -129,7 +133,7 @@ export default function RoomDetails() {
   };
 
   const handleCancel = () => {
-    setIsEditing(false);
+    setIsRoomEditing(false);
   };
 
   const handleSubmitComment = async (comment) => {
@@ -149,6 +153,62 @@ export default function RoomDetails() {
     }
   };
 
+  const handleCommentUpdateSave = async (commentId, editedContents) => {
+    try {
+      await axiosInstance.put(`/comment/${commentId}`, {
+        contents: editedContents,
+      });
+
+      const updatedComments = comments.map((comment) => {
+        if (comment.commentId === commentId) {
+          return { ...comment, contents: editedContents };
+        }
+        return comment;
+      });
+
+      setComments(updatedComments);
+      alert("댓글 수정에 성공했습니다!");
+    } catch (error) {
+      alert("댓글 수정에 실패했습니다!");
+    }
+
+    setIsCommentEditing(false);
+  };
+
+  const handleCommentDelete = async (commentId) => {
+    const isConfirmed = window.confirm("정말로 댓글을 삭제하시겠습니까?");
+
+    if (isConfirmed) {
+      try {
+        await axiosInstance.delete(`/comment/${commentId}`);
+
+        const filteredComments = comments.filter(
+          (comment) => comment.commentId !== commentId
+        );
+        setComments(filteredComments);
+        alert("댓글을 삭제하는데 성공했습니다!");
+      } catch (error) {
+        alert("댓글을 삭제하는데 실패했습니다..");
+      }
+    } else {
+      alert("댓글 삭제가 취소되었습니다.");
+    }
+  };
+
+  const handleCommentEdit = (comment) => {
+    setIsCommentEditing(true);
+    setEditingCommentId(comment.commentId);
+    setEditedContents(comment.contents);
+  };
+
+  const handleCommentCancel = () => {
+    setIsCommentEditing(false);
+  };
+
+  const handleSetEditedContents = (e) => {
+    setEditedContents(e.target.value);
+  };
+
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
@@ -160,7 +220,7 @@ export default function RoomDetails() {
         </RoomInfoContainer>
         {isLoggedIn && userInfo.memberId === roomInfo.memberId ? (
           <>
-            {!isEditing ? (
+            {!isRoomEditing ? (
               <ButtonContainer>
                 <Button $variant="edit" type="button" onClick={handleEdit}>
                   수정
@@ -191,13 +251,13 @@ export default function RoomDetails() {
 
       <StyledLabel>{roomInfo.date}</StyledLabel>
       <RoomTitle
-        isEditing={isEditing}
+        isEditing={isRoomEditing}
         title={roomInfo.title}
         setTitle={(value) => updateRoomInfo("title", value)}
       />
 
       <div>
-        {!isEditing ? (
+        {!isRoomEditing ? (
           <>
             <StyledLabel>코드 & 내용</StyledLabel>
             <MarkdownPreview>{markdownContent}</MarkdownPreview>
@@ -225,7 +285,15 @@ export default function RoomDetails() {
       {/* 토론의 장 */}
       <DiscussionContainer
         onSubmit={handleSubmitComment}
+        onUpdate={handleCommentUpdateSave}
+        onDelete={handleCommentDelete}
         comments={comments}
+        isCommentEditing={isCommentEditing}
+        editingCommentId={editingCommentId}
+        editedContents={editedContents}
+        onEdit={handleCommentEdit}
+        onCancel={handleCommentCancel}
+        onUpdateContents={handleSetEditedContents}
         isLoggedIn={isLoggedIn}
         userInfo={userInfo}
       />
