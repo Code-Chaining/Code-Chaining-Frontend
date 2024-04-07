@@ -30,11 +30,12 @@ export default function RoomDetails() {
   const { isLoggedIn, userInfo } = useAuth();
   const { removeRoomFromList } = useRooms();
   const [isRoomEditing, setIsRoomEditing] = useState(false);
+
+  const [comments, setComments] = useState([]);
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContents, setEditedContents] = useState("");
 
-  const [comments, setComments] = useState([]);
   const [roomInfo, setRoomInfo] = useState({
     title: "",
     codeAndContents: "",
