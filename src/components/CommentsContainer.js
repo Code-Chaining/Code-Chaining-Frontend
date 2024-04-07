@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ProfileImage } from "../css/CommentInputSectionCss";
 import {
   Button,

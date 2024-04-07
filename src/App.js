@@ -5,6 +5,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { RoomProvider } from "./contexts/RoomContext";
 import Header from "./components/header/Header";
@@ -13,7 +14,8 @@ import CreateRoom from "./components/CreateRoom";
 import RoomDetails from "./components/RoomDetails";
 import LoginPage from "./components/LoginPage";
 import styled from "styled-components";
-import CombinedRoomList from "./components/CombinedRoomList";
+
+import PublicRoomList from "./components/PublicRoomList";
 
 function App() {
   return (
@@ -23,10 +25,21 @@ function App() {
           <PageLayout>
             <AppContainer>
               <Routes>
-                <Route path="/" element={<CombinedRoomList />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/create-room" element={<CreateRoom />} />
-                <Route path="/room/:roomId" element={<RoomDetails />} />
+
+                <Route
+                  path="/"
+                  element={
+                    <>
+                      <RoomSidebar />
+                      <PublicRoomList />
+                    </>
+                  }
+                />
+                <Route element={<CommonLayout />}>
+                  <Route path="/create-room" element={<CreateRoom />} />
+                  <Route path="/room/:roomId" element={<RoomDetails />} />
+                </Route>
               </Routes>
             </AppContainer>
           </PageLayout>
@@ -36,13 +49,21 @@ function App() {
   );
 }
 
+function CommonLayout() {
+  return (
+    <>
+      <RoomSidebar />
+      <Outlet />
+    </>
+  );
+}
+
 function PageLayout({ children }) {
   const location = useLocation();
 
   return (
     <>
       {location.pathname !== "/login" && <Header />}
-      {location.pathname !== "/login" && <RoomSidebar />}
       {children}
     </>
   );
