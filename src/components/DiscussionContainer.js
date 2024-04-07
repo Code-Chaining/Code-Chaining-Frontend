@@ -4,7 +4,15 @@ import CommentsContainer from "./CommentsContainer";
 
 export default function DiscussionContainer({
   onSubmit,
+  onUpdate,
+  onDelete,
   comments,
+  isCommentEditing,
+  editingCommentId,
+  editedContents,
+  onEdit,
+  onCancel,
+  onUpdateContents,
   isLoggedIn,
   userInfo,
 }) {
@@ -21,7 +29,15 @@ export default function DiscussionContainer({
       )}
 
       <CommentsContainer
+        onUpdate={onUpdate}
+        onDelete={onDelete}
         comments={comments}
+        isCommentEditing={isCommentEditing}
+        editingCommentId={editingCommentId}
+        editedContents={editedContents}
+        onEdit={onEdit}
+        onCancel={onCancel}
+        onUpdateContents={onUpdateContents}
         isLoggedIn={isLoggedIn}
         userInfo={userInfo}
       />
