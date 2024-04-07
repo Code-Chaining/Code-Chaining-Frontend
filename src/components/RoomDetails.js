@@ -224,7 +224,6 @@ export default function RoomDetails() {
 
       {/* 토론의 장 */}
       <DiscussionContainer
-        profileImageUrl={userInfo.picture}
         onSubmit={handleSubmitComment}
         comments={comments}
         isLoggedIn={isLoggedIn}

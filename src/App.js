@@ -6,41 +6,32 @@ import {
   useLocation,
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { RoomProvider } from "./contexts/RoomContext";
 import Header from "./components/header/Header";
-import PublicRoomList from "./components/PublicRoomList";
 import RoomSidebar from "./components/RoomSidebar";
 import CreateRoom from "./components/CreateRoom";
 import RoomDetails from "./components/RoomDetails";
 import LoginPage from "./components/LoginPage";
 import styled from "styled-components";
-import { RoomProvider } from "./contexts/RoomContext";
-import MyRoomList from "./components/MyRoomList";
+import CombinedRoomList from "./components/CombinedRoomList";
 
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <RoomProvider>
+      <RoomProvider>
+        <AuthProvider>
           <PageLayout>
             <AppContainer>
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <PublicRoomList />
-                      <MyRoomList />
-                    </>
-                  }
-                />
+                <Route path="/" element={<CombinedRoomList />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/create-room" element={<CreateRoom />} />
                 <Route path="/room/:roomId" element={<RoomDetails />} />
               </Routes>
             </AppContainer>
           </PageLayout>
-        </RoomProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </RoomProvider>
     </Router>
   );
 }
