@@ -24,9 +24,18 @@ export const CommentContent = styled.div`
   flex-direction: column;
 `;
 
+export const WriterAndDate = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 export const Writer = styled.div`
   font-weight: bold;
-  margin-bottom: 5px;
+`;
+
+export const Date = styled.div`
+  padding-left: 0.5vw;
+  font-size: 0.8rem;
 `;
 
 export const ButtonContainer = styled.div`
@@ -68,4 +77,14 @@ export const CommentInput = styled.textarea`
 
 export const CommentContents = styled.div`
   white-space: pre-wrap;
+`;
+
+export const NoCommentsMessage = styled.div`
+  color: #979797;
+  text-align: center;
+  font-family: "Pretendard-Regular", Helvetica;
+  margin: 1vh 0;
+  opacity: 0.8;
+  font-size: 1.05rem;
+  font-weight: bold;
 `;

@@ -31,11 +31,6 @@ export default function RoomDetails() {
   const { removeRoomFromList } = useRooms();
   const [isRoomEditing, setIsRoomEditing] = useState(false);
 
-  const [comments, setComments] = useState([]);
-  const [isCommentEditing, setIsCommentEditing] = useState(false);
-  const [editingCommentId, setEditingCommentId] = useState(null);
-  const [editedContents, setEditedContents] = useState("");
-
   const [roomInfo, setRoomInfo] = useState({
     title: "",
     codeAndContents: "",
@@ -69,24 +64,7 @@ export default function RoomDetails() {
       }
     };
 
-    const fetchCommentList = async () => {
-      try {
-        const response = await axiosInstance.get(`/comment/${roomId}`);
-        const commentsData = response.data.data.commentList.map((comment) => ({
-          commentId: comment.commentId,
-          memberId: comment.memberId,
-          nickname: comment.nickname,
-          picture: comment.picture,
-          contents: comment.contents,
-        }));
-        setComments(commentsData);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchRoomInfo();
-    fetchCommentList();
   }, [roomId]);
 
   const handleEdit = () => {
@@ -135,79 +113,6 @@ export default function RoomDetails() {
 
   const handleCancel = () => {
     setIsRoomEditing(false);
-  };
-
-  const handleSubmitComment = async (comment) => {
-    const commentData = {
-      roomId: roomId,
-      contents: comment,
-    };
-
-    try {
-      const response = await axiosInstance.post(`/comment/`, commentData);
-      const newComment = response.data.data;
-
-      setComments((prevComments) => [...prevComments, newComment]);
-      alert("댓글이 작성되었습니다.");
-    } catch (error) {
-      alert("댓글 작성에 실패했습니다.");
-    }
-  };
-
-  const handleCommentUpdateSave = async (commentId, editedContents) => {
-    try {
-      await axiosInstance.put(`/comment/${commentId}`, {
-        contents: editedContents,
-      });
-
-      const updatedComments = comments.map((comment) => {
-        if (comment.commentId === commentId) {
-          return { ...comment, contents: editedContents };
-        }
-        return comment;
-      });
-
-      setComments(updatedComments);
-      alert("댓글 수정에 성공했습니다!");
-    } catch (error) {
-      alert("댓글 수정에 실패했습니다!");
-    }
-
-    setIsCommentEditing(false);
-  };
-
-  const handleCommentDelete = async (commentId) => {
-    const isConfirmed = window.confirm("정말로 댓글을 삭제하시겠습니까?");
-
-    if (isConfirmed) {
-      try {
-        await axiosInstance.delete(`/comment/${commentId}`);
-
-        const filteredComments = comments.filter(
-          (comment) => comment.commentId !== commentId
-        );
-        setComments(filteredComments);
-        alert("댓글을 삭제하는데 성공했습니다!");
-      } catch (error) {
-        alert("댓글을 삭제하는데 실패했습니다..");
-      }
-    } else {
-      alert("댓글 삭제가 취소되었습니다.");
-    }
-  };
-
-  const handleCommentEdit = (comment) => {
-    setIsCommentEditing(true);
-    setEditingCommentId(comment.commentId);
-    setEditedContents(comment.contents);
-  };
-
-  const handleCommentCancel = () => {
-    setIsCommentEditing(false);
-  };
-
-  const handleSetEditedContents = (e) => {
-    setEditedContents(e.target.value);
   };
 
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
@@ -285,16 +190,7 @@ export default function RoomDetails() {
 
       {/* 토론의 장 */}
       <DiscussionContainer
-        onSubmit={handleSubmitComment}
-        onUpdate={handleCommentUpdateSave}
-        onDelete={handleCommentDelete}
-        comments={comments}
-        isCommentEditing={isCommentEditing}
-        editingCommentId={editingCommentId}
-        editedContents={editedContents}
-        onEdit={handleCommentEdit}
-        onCancel={handleCommentCancel}
-        onUpdateContents={handleSetEditedContents}
+        roomId={roomId}
         isLoggedIn={isLoggedIn}
         userInfo={userInfo}
       />

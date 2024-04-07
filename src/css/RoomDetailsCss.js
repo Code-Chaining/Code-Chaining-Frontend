@@ -6,7 +6,7 @@ export const RoomDetailsContainer = styled.div`
   flex-wrap: nowrap;
   gap: 1.25vw;
   position: relative;
-  width: 80vw;
+  width: 78vw;
   height: 90vh;
   margin: 0 0 0 22vw;
   overflow: scroll;
