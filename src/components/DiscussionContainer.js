@@ -52,7 +52,11 @@ export default function DiscussionContainer({ roomId, isLoggedIn, userInfo }) {
       setComments((prevComments) => [...prevComments, newComment]);
       alert("댓글이 작성되었습니다.");
     } catch (error) {
-      alert("댓글 작성에 실패했습니다.");
+      if (error.response && error.response.status === 400) {
+        alert("내용을 입력하셔야합니다.");
+      } else {
+        alert("댓글 작성에 실패했습니다.");
+      }
     }
   };
 
@@ -72,7 +76,11 @@ export default function DiscussionContainer({ roomId, isLoggedIn, userInfo }) {
       setComments(updatedComments);
       alert("댓글 수정에 성공했습니다!");
     } catch (error) {
-      alert("댓글 수정에 실패했습니다!");
+      if (error.response && error.response.status === 400) {
+        alert("내용을 입력하셔야합니다.");
+      } else {
+        alert("댓글 수정에 실패했습니다!");
+      }
     }
 
     setIsCommentEditing(false);
