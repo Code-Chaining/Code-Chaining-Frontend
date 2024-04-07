@@ -6,6 +6,7 @@ import {
   StyledTextArea,
   StyledLabel,
   MarkdownPreview,
+  CharacterCount,
 } from "../css/CreateRoomCss";
 import Button from "./Button";
 import renderMarkdown from "../utils/renderMarkdown";
@@ -22,24 +23,35 @@ export default function CreateRoom() {
     navigate("/");
   }
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
+
+    if (title.length > 50) {
+      alert("제목은 50자 이내로 입력해주세요.");
+      return;
+    }
+    if (codeAndContents.length > 3000) {
+      alert("내용은 3000자 이내로 입력해주세요.");
+      return;
+    }
 
     const roomData = {
       title: title,
       codeAndContents: codeAndContents,
     };
 
-    axiosInstance
-      .post(`/room/`, roomData)
-      .then(() => {
-        alert("방이 성공적으로 생성되었습니다!");
-        handleMainPage();
-      })
-      .catch((error) => {
+    try {
+      await axiosInstance.post(`/room/`, roomData);
+
+      alert("방이 성공적으로 생성되었습니다!");
+      handleMainPage();
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        alert("제목 또는 내용을 입력하셔야합니다.");
+      } else {
         alert("방 생성에 실패했습니다.");
-        console.log(error);
-      });
+      }
+    }
   };
 
   const markdownContent = renderMarkdown(codeAndContents);
@@ -47,7 +59,10 @@ export default function CreateRoom() {
   return (
     <>
       <CreateRoomForm>
-        <RoomTitle title={title} setTitle={setTitle} />
+        <div>
+          <RoomTitle title={title} setTitle={setTitle} />
+          <CharacterCount>({title.length}/50)</CharacterCount>
+        </div>
 
         <div>
           <StyledLabel htmlFor="codeAndContents">
@@ -58,7 +73,9 @@ export default function CreateRoom() {
             placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
             value={codeAndContents}
             onChange={(e) => setCodeAndContents(e.target.value)}
+            maxLength={3000}
           />
+          <CharacterCount>({codeAndContents.length}/3000)</CharacterCount>
         </div>
         <div>
           <StyledLabel>미리보기</StyledLabel>

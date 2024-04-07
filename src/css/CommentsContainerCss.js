@@ -10,7 +10,7 @@ export const CommentItem = styled.div`
   display: flex;
   align-items: flex-start;
   margin-bottom: 1.4vh;
-  padding: 2px;
+  padding: 2px 2px 2px 0;
 `;
 
 export const ProfileImage = styled.img`
@@ -77,6 +77,8 @@ export const CommentInput = styled.textarea`
 
 export const CommentContents = styled.div`
   white-space: pre-wrap;
+  max-width: 69vw;
+  overflow-wrap: break-word;
 `;
 
 export const NoCommentsMessage = styled.div`

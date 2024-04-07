@@ -11,6 +11,7 @@ export default function RoomTitle({ isEditing = true, title, setTitle }) {
         placeholder="제목을 입력하세요."
         value={title || ""}
         onChange={(e) => setTitle(e.target.value)}
+        maxLength={50}
       />
     </div>
   );
