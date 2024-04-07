@@ -70,3 +70,8 @@ export const MarkdownPreview = styled.div`
   border-radius: 0.4vw;
   margin: 0.5vw 0;
 `;
+
+export const CharacterCount = styled.div`
+  color: #666;
+  font-size: 1vw;
+`;

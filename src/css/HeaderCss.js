@@ -25,7 +25,7 @@ export const Logo = styled.img`
 export const Text = styled.div`
   color: #000000;
   font-family: "Pretendard-Black", Helvetica;
-  font-size: 1.3vw;
+  font-size: 15px;
 `;
 
 export const StyledLink = styled(Link)`
@@ -68,7 +68,7 @@ export const MyProfileContainer = styled.div`
 `;
 
 export const MyProfileImage = styled.img`
-  width: 3vw;
+  width: 40px;
   border-radius: 50%;
   object-fit: cover;
 `;
@@ -76,11 +76,11 @@ export const MyProfileImage = styled.img`
 export const MyProfileText = styled.div`
   color: #000000;
   font-family: "Pretendard", Helvetica;
-  font-size: 1.2vw;
+  font-size: 15px;
 `;
 
 export const LogoutButton = styled.button`
-  width: 2.5vw;
+  width: 30px;
   margin-left: 0.2vw;
   padding: 0 0.2vw 0 0.2vw;
   font-size: 0.7rem;

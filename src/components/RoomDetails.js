@@ -5,6 +5,7 @@ import {
   MarkdownPreview,
   ButtonContainer,
   StyledTextArea,
+  CharacterCount,
 } from "../css/CreateRoomCss";
 import {
   RoomDetailsContainer,
@@ -30,6 +31,8 @@ export default function RoomDetails() {
   const { isLoggedIn, userInfo } = useAuth();
   const { removeRoomFromList } = useRooms();
   const [isRoomEditing, setIsRoomEditing] = useState(false);
+
+  const [originalRoomInfo, setOriginalRoomInfo] = useState([]);
 
   const [roomInfo, setRoomInfo] = useState({
     title: "",
@@ -68,6 +71,7 @@ export default function RoomDetails() {
   }, [roomId]);
 
   const handleEdit = () => {
+    setOriginalRoomInfo(roomInfo);
     setIsRoomEditing(true);
   };
 
@@ -79,6 +83,15 @@ export default function RoomDetails() {
   };
 
   const handleUpdateSave = async () => {
+    if (roomInfo.title.length > 50) {
+      alert("제목은 50자 이내로 입력해주세요.");
+      return;
+    }
+    if (roomInfo.codeAndContents.length > 3000) {
+      alert("내용은 3000자 이내로 입력해주세요.");
+      return;
+    }
+
     try {
       await axiosInstance.put(`/room/${roomId}`, {
         title: roomInfo.title,
@@ -87,7 +100,11 @@ export default function RoomDetails() {
 
       alert("방이 성공적으로 수정되었습니다!");
     } catch (error) {
-      alert("수정에 실패했습니다.");
+      if (error.response && error.response.status === 400) {
+        alert("제목 또는 내용을 입력하셔야합니다.");
+      } else {
+        alert("수정에 실패했습니다.");
+      }
     }
 
     setIsRoomEditing(false);
@@ -112,6 +129,7 @@ export default function RoomDetails() {
   };
 
   const handleCancel = () => {
+    setRoomInfo(originalRoomInfo);
     setIsRoomEditing(false);
   };
 
@@ -156,11 +174,18 @@ export default function RoomDetails() {
       </RoomInfoAndButtonContainer>
 
       <StyledLabel>{roomInfo.date}</StyledLabel>
-      <RoomTitle
-        isEditing={isRoomEditing}
-        title={roomInfo.title}
-        setTitle={(value) => updateRoomInfo("title", value)}
-      />
+      <div>
+        <RoomTitle
+          isEditing={isRoomEditing}
+          title={roomInfo.title}
+          setTitle={(value) => updateRoomInfo("title", value)}
+        />
+        {isRoomEditing ? (
+          <CharacterCount>({roomInfo.title.length}/50)</CharacterCount>
+        ) : (
+          <></>
+        )}
+      </div>
 
       <div>
         {!isRoomEditing ? (
@@ -181,6 +206,9 @@ export default function RoomDetails() {
                 updateRoomInfo("codeAndContents", e.target.value)
               }
             />
+            <CharacterCount>
+              ({roomInfo.codeAndContents.length}/3000)
+            </CharacterCount>
             <StyledLabel>미리보기</StyledLabel>
             <MarkdownPreview>{markdownContent}</MarkdownPreview>
           </>
