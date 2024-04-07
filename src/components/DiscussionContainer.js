@@ -3,7 +3,6 @@ import CommentInputContainer from "./CommentInputContainer";
 import CommentsContainer from "./CommentsContainer";
 
 export default function DiscussionContainer({
-  profileImageUrl,
   onSubmit,
   comments,
   isLoggedIn,
@@ -14,7 +13,7 @@ export default function DiscussionContainer({
       <StyledLabel>토론의 장</StyledLabel>
       {isLoggedIn ? (
         <CommentInputContainer
-          profileImageUrl={profileImageUrl}
+          profileImageUrl={userInfo.picture}
           onSubmit={onSubmit}
         />
       ) : (
