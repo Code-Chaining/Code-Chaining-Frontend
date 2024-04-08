@@ -1,4 +1,5 @@
-import { ProfileImage } from "../css/CommentInputSectionCss";
+import { useEffect, useState } from "react";
+import { CommentForm, ProfileImage } from "../css/CommentInputSectionCss";
 import {
   Button,
   ButtonContainer,
@@ -9,9 +10,11 @@ import {
   Writer,
   Date,
   CommentInput,
-  CommentContents,
   NoCommentsMessage,
 } from "../css/CommentsContainerCss";
+import WriteAndPreviewInputButton from "./WriteAndPreviewInputButton";
+import { MarkdownPreview } from "../css/CreateRoomCss";
+import renderMarkdown from "../utils/renderMarkdown";
 
 export default function CommentsContainer({
   onUpdate,
@@ -26,6 +29,27 @@ export default function CommentsContainer({
   isLoggedIn,
   userInfo,
 }) {
+  const [isInput, setIsInput] = useState(true);
+  const [textareaHeight, setTextareaHeight] = useState("auto");
+
+  useEffect(() => {
+    if (isInput) {
+      const textarea = document.querySelector('textarea[name="comment"]');
+      if (textarea) {
+        const event = { target: textarea };
+        autoResizeTextarea(event);
+      }
+    }
+  }, []);
+
+  const autoResizeTextarea = (event) => {
+    const textarea = event.target;
+    textarea.style.height = "auto";
+    const newHeight = `${textarea.scrollHeight}px`;
+    textarea.style.height = newHeight;
+    setTextareaHeight(newHeight);
+  };
+
   return (
     <CommentsFormContainer>
       {comments.length > 0 ? (
@@ -38,24 +62,47 @@ export default function CommentsContainer({
                   <Writer>{comment.nickname}</Writer>
                   <Date>{comment.date}</Date>
                 </WriterAndDate>
+
                 {isCommentEditing && editingCommentId === comment.commentId ? (
-                  <div>
-                    <CommentInput
-                      type="text"
-                      placeholder="댓글을 입력하세요."
-                      value={editedContents}
-                      onChange={(e) => onUpdateContents(e)}
-                    />
-                  </div>
+                  <>
+                    <WriteAndPreviewInputButton
+                      onInput={() => setIsInput(true)}
+                      onPreview={() => setIsInput(false)}
+                      isInput={isInput}
+                    ></WriteAndPreviewInputButton>
+                    <CommentForm>
+                      {isInput ? (
+                        <>
+                          <CommentInput
+                            type="text"
+                            name="comment"
+                            placeholder="댓글을 입력하세요. (Markdown을 지원합니다.)"
+                            value={editedContents}
+                            style={{ height: textareaHeight }}
+                            onChange={(e) => {
+                              onUpdateContents(e);
+                              autoResizeTextarea(e);
+                            }}
+                          />
+                        </>
+                      ) : (
+                        <MarkdownPreview size="small">
+                          {renderMarkdown(editedContents)}
+                        </MarkdownPreview>
+                      )}
+                    </CommentForm>
+                  </>
                 ) : (
-                  <CommentContents>{comment.contents}</CommentContents>
+                  <MarkdownPreview size="small">
+                    {renderMarkdown(comment.contents)}
+                  </MarkdownPreview>
                 )}
 
                 {isLoggedIn && userInfo.memberId === comment.memberId ? (
                   <>
                     {!isCommentEditing ||
                     editingCommentId !== comment.commentId ? (
-                      <ButtonContainer>
+                      <ButtonContainer $variant="not">
                         <Button
                           $variant="edit"
                           type="button"
@@ -76,16 +123,14 @@ export default function CommentsContainer({
                         <Button
                           $variant="cancel"
                           type="button"
-                          onClick={() => onCancel()}
+                          onClick={onCancel}
                         >
                           취소
                         </Button>
                         <Button
                           $variant="save"
                           type="submit"
-                          onClick={() =>
-                            onUpdate(editingCommentId, editedContents)
-                          }
+                          onClick={() => onUpdate(editingCommentId)}
                         >
                           저장
                         </Button>

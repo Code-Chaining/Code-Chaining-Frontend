@@ -77,11 +77,13 @@ export const StyledLabel = styled.label`
 export const MarkdownPreview = styled.div`
   width: ${(props) => (props.size === "small" ? "68vw" : "74vw")};
   height: auto;
+  min-height: 10vh;
   border: 1px solid #ccc;
-  padding: 2vw;
+  padding: 1vw;
   box-sizing: border-box;
   background-color: #ffffff;
   border-radius: 0.4vw;
+  overflow-wrap: break-word;
 `;
 
 export const CharacterCount = styled.div`

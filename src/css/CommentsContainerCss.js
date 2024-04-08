@@ -40,8 +40,10 @@ export const Date = styled.div`
 
 export const ButtonContainer = styled.div`
   display: flex;
+  justify-content: flex-end;
   gap: 0.4vw;
   margin-top: 10px;
+  margin-right: ${(props) => (props.$variant === "not" ? "" : "5vw")};
 `;
 
 export const Button = styled.button`
@@ -60,25 +62,30 @@ export const Button = styled.button`
 `;
 
 export const CommentInput = styled.textarea`
-  width: 50vw;
-  height: 20vh;
-  padding: 0.2vw 0.2vh;
-  box-sizing: border-box;
+  width: 65.6vw;
+  height: 10vh;
+  padding: 1vw;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  background-color: #ffffff;
+  border-radius: 0.4vw;
+  font-size: 1.1vw;
+  resize: vertical;
 
   &:focus {
     outline: none;
     border-color: #4a90e2;
-    box-shadow: 0 0 0 0.1vw rgba(74, 144, 226, 0.5);
+    box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.5);
   }
 `;
 
 export const CommentContents = styled.div`
   white-space: pre-wrap;
   max-width: 69vw;
+  width: 69vw;
   overflow-wrap: break-word;
+
+  // border: 1px solid #000000;
+  // border-radius: 4px;
 `;
 
 export const NoCommentsMessage = styled.div`
