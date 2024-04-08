@@ -15,14 +15,12 @@ export default function MyRoomList() {
   let navigate = useNavigate();
 
   const { isLoggedIn } = useAuth();
-  const { myRooms, myFetchRooms } = useRooms();
+  const { myRooms } = useRooms();
 
   useEffect(() => {
     if (!isLoggedIn) {
       return;
     }
-
-    myFetchRooms();
   }, [isLoggedIn]);
 
   function handleRoomDetailPage(e, roomId) {

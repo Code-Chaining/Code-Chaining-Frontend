@@ -24,12 +24,15 @@ import { axiosInstance } from "../utils/apiConfig";
 
 import { useAuth } from "../contexts/AuthContext";
 import { useRooms } from "../contexts/RoomContext";
+import { useLoading } from "../contexts/LoadingContext";
+import LoaderSpinner from "./LoaderSpinner";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
 
   const { isLoggedIn, userInfo } = useAuth();
   const { removeRoomFromList } = useRooms();
+  const { isLoading, setIsLoading } = useLoading();
   const [isRoomEditing, setIsRoomEditing] = useState(false);
 
   const [originalRoomInfo, setOriginalRoomInfo] = useState([]);
@@ -50,6 +53,7 @@ export default function RoomDetails() {
 
   useEffect(() => {
     const fetchRoomInfo = async () => {
+      setIsLoading(true);
       try {
         const response = await axiosInstance.get(`/room/${roomId}`);
         const { title, codeAndContents, date, memberId, nickname, picture } =
@@ -65,10 +69,15 @@ export default function RoomDetails() {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
 
     fetchRoomInfo();
   }, [roomId]);
+
+  if (isLoading) {
+    return <LoaderSpinner />;
+  }
 
   const handleEdit = () => {
     setOriginalRoomInfo(roomInfo);

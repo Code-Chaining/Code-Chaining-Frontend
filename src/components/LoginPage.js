@@ -13,10 +13,13 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiBaseUrl } from "../utils/apiConfig";
 import { useAuth } from "../contexts/AuthContext";
+import { useLoading } from "../contexts/LoadingContext";
+import LoaderSpinner from "./LoaderSpinner";
 
 export default function LoginPage() {
   let navigate = useNavigate();
   const { isLoggedIn, login } = useAuth();
+  const { isLoading, setIsLoading } = useLoading();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -27,6 +30,8 @@ export default function LoginPage() {
     const codeParam = urlParams.get("code");
 
     if (codeParam) {
+      setIsLoading(true);
+
       axios({
         method: "post",
         url: "https://kauth.kakao.com/oauth/token",
@@ -52,6 +57,7 @@ export default function LoginPage() {
         })
         .then((response) => {
           login(response.data.data);
+          setIsLoading(false);
           navigate("/");
         })
         .catch((error) => {
@@ -59,6 +65,10 @@ export default function LoginPage() {
         });
     }
   }, [isLoggedIn, login, navigate]);
+
+  if (isLoading) {
+    return <LoaderSpinner />;
+  }
 
   const kakaoHandleLogin = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}`;
