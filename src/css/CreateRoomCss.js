@@ -75,11 +75,11 @@ export const StyledLabel = styled.label`
 `;
 
 export const MarkdownPreview = styled.div`
-  width: 100%;
+  width: ${(props) => (props.size === "small" ? "68vw" : "74vw")};
+  height: auto;
   border: 1px solid #ccc;
   padding: 2vw;
   box-sizing: border-box;
-  border: 1px solid #ccc;
   background-color: #ffffff;
   border-radius: 0.4vw;
 `;
