@@ -8,14 +8,14 @@ import {
 import { Outlet } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { RoomProvider } from "./contexts/RoomContext";
+import { LoadingProvider } from "./contexts/LoadingContext";
 import Header from "./components/header/Header";
 import RoomSidebar from "./components/RoomSidebar";
 import CreateRoom from "./components/CreateRoom";
 import RoomDetails from "./components/RoomDetails";
 import LoginPage from "./components/LoginPage";
 import styled from "styled-components";
-
-import PublicRoomList from "./components/PublicRoomList";
+import CombineRoomList from "./components/CombineRoomList";
 
 function App() {
   return (
@@ -24,23 +24,17 @@ function App() {
         <AuthProvider>
           <PageLayout>
             <AppContainer>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
+              <LoadingProvider>
+                <Routes>
+                  <Route path="/login" element={<LoginPage />} />
 
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <RoomSidebar />
-                      <PublicRoomList />
-                    </>
-                  }
-                />
-                <Route element={<CommonLayout />}>
-                  <Route path="/create-room" element={<CreateRoom />} />
-                  <Route path="/room/:roomId" element={<RoomDetails />} />
-                </Route>
-              </Routes>
+                  <Route path="/" element={<CombineRoomList />} />
+                  <Route element={<CommonLayout />}>
+                    <Route path="/create-room" element={<CreateRoom />} />
+                    <Route path="/room/:roomId" element={<RoomDetails />} />
+                  </Route>
+                </Routes>
+              </LoadingProvider>
             </AppContainer>
           </PageLayout>
         </AuthProvider>

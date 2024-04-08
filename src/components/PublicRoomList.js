@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   PublicRoom,
   PublicRoomSpan,
@@ -6,17 +5,12 @@ import {
 } from "../css/PublicRoomListCss";
 import { useNavigate } from "react-router-dom";
 import Button from "./Button";
-
 import { useRooms } from "../contexts/RoomContext";
 
 export default function PublicRoomList() {
   let navigate = useNavigate();
 
-  const { publicRooms, publicFetchRooms } = useRooms();
-
-  useEffect(() => {
-    publicFetchRooms();
-  }, []);
+  const { publicRooms } = useRooms();
 
   function handleRoomDetailPage(e, roomId) {
     e.stopPropagation();

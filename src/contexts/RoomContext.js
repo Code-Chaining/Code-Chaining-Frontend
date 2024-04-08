@@ -11,7 +11,8 @@ export function RoomProvider({ children }) {
   const [myRooms, setMyRooms] = useState([]);
   const [publicRooms, setPublicRooms] = useState([]);
 
-  const myFetchRooms = async () => {
+  const myFetchRooms = async (setIsLoading) => {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.get(`/room/my`);
       const roomsData = response.data.data.myRoomList.map((room) => ({
@@ -24,9 +25,11 @@ export function RoomProvider({ children }) {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
-  const publicFetchRooms = async () => {
+  const publicFetchRooms = async (setIsLoading) => {
+    setIsLoading(true);
     try {
       const response = await axiosInstance.get(`/room/public`);
       const roomsData = response.data.data.publicRoomList.map((room) => ({
@@ -40,6 +43,7 @@ export function RoomProvider({ children }) {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   const removeRoomFromList = (roomId) => {
