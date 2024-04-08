@@ -11,11 +11,15 @@ import {
 import WriteAndPreviewInputButton from "./WriteAndPreviewInputButton";
 import renderMarkdown from "../utils/renderMarkdown";
 import { MarkdownPreview } from "../css/CreateRoomCss";
+import { useRooms } from "../contexts/RoomContext";
+import { useLoading } from "../contexts/LoadingContext";
 
 const CommentInputContainer = ({ profileImageUrl, onSubmit }) => {
   const [comment, setComments] = useState("");
   const [isInput, setIsInput] = useState(true);
   const [textareaHeight, setTextareaHeight] = useState("auto");
+  const { myFetchRooms } = useRooms();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     if (isInput) {
@@ -26,9 +30,17 @@ const CommentInputContainer = ({ profileImageUrl, onSubmit }) => {
     }
   }, [isInput]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    onSubmit(comment);
+
+    try {
+      await onSubmit(comment);
+      await myFetchRooms(setIsLoading);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+
     setComments("");
   };
 
