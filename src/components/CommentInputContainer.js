@@ -1,33 +1,90 @@
+import { useEffect, useState } from "react";
 import {
-  CommentForm,
   CommentInputFormContainer,
+  CommentForm,
+  InputButtonCommentForm,
   CommentInput,
   ProfileImage,
-  Divider,
+  SubmitButtonContainer,
+  SubmitButton,
 } from "../css/CommentInputSectionCss";
+import WriteAndPreviewInputButton from "./WriteAndPreviewInputButton";
+import renderMarkdown from "../utils/renderMarkdown";
+import { MarkdownPreview } from "../css/CreateRoomCss";
+import { useRooms } from "../contexts/RoomContext";
+import { useLoading } from "../contexts/LoadingContext";
 
 const CommentInputContainer = ({ profileImageUrl, onSubmit }) => {
-  const handleSubmit = (event) => {
+  const [comment, setComments] = useState("");
+  const [isInput, setIsInput] = useState(true);
+  const [textareaHeight, setTextareaHeight] = useState("auto");
+  const { myFetchRooms } = useRooms();
+  const { setIsLoading } = useLoading();
+
+  useEffect(() => {
+    if (isInput) {
+      const event = {
+        target: document.querySelector('textarea[name="comment"]'),
+      };
+      autoResizeTextarea(event);
+    }
+  }, [isInput]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const comment = event.target.elements.comment.value;
-    onSubmit(comment);
-    event.target.reset(); // 폼 초기화
+
+    try {
+      await onSubmit(comment);
+      await myFetchRooms(setIsLoading);
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setComments("");
   };
 
+  const autoResizeTextarea = (event) => {
+    const textarea = event.target;
+    textarea.style.height = "auto";
+    const newHeight = `${textarea.scrollHeight}px`;
+    textarea.style.height = newHeight;
+    setTextareaHeight(newHeight);
+  };
+
+  const markdownComment = renderMarkdown(comment);
+
   return (
-    <div>
-      <CommentInputFormContainer>
-        <ProfileImage src={profileImageUrl} alt="Profile" />
+    <CommentInputFormContainer>
+      <ProfileImage src={profileImageUrl} alt="Profile" />
+      <InputButtonCommentForm>
+        <WriteAndPreviewInputButton
+          onInput={() => setIsInput(true)}
+          onPreview={() => setIsInput(false)}
+          isInput={isInput}
+        />
         <CommentForm onSubmit={handleSubmit}>
-          <CommentInput
-            type="text"
-            name="comment"
-            placeholder="댓글을 입력하세요."
-          />
-          <Divider />
+          {isInput ? (
+            <CommentInput
+              type="text"
+              name="comment"
+              placeholder="댓글을 입력하세요. (Markdown을 지원합니다.)"
+              value={comment}
+              style={{ height: textareaHeight }}
+              onChange={(e) => {
+                setComments(e.target.value);
+                autoResizeTextarea(e);
+              }}
+            />
+          ) : (
+            <MarkdownPreview size="small">{markdownComment}</MarkdownPreview>
+          )}
+          <SubmitButtonContainer>
+            <SubmitButton type="submit">등록</SubmitButton>
+          </SubmitButtonContainer>
         </CommentForm>
-      </CommentInputFormContainer>
-    </div>
+      </InputButtonCommentForm>
+    </CommentInputFormContainer>
   );
 };
 

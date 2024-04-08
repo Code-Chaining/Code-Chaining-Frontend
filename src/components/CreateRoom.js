@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   CreateRoomForm,
   ButtonContainer,
+  TextAreaContainer,
   StyledTextArea,
   StyledLabel,
   MarkdownPreview,
@@ -11,11 +12,22 @@ import {
 import Button from "./Button";
 import renderMarkdown from "../utils/renderMarkdown";
 import RoomTitle from "./RoomTitle";
+import WriteAndPreviewInputButton from "./WriteAndPreviewInputButton";
+
 import { axiosInstance } from "../utils/apiConfig";
 
 export default function CreateRoom() {
   const [title, setTitle] = useState("");
   const [codeAndContents, setCodeAndContents] = useState("");
+  const [isInput, setIsInput] = useState(true);
+
+  const handleIsInputWrite = () => {
+    setIsInput(true);
+  };
+
+  const handleInputPreview = () => {
+    setIsInput(false);
+  };
 
   let navigate = useNavigate();
 
@@ -64,23 +76,41 @@ export default function CreateRoom() {
           <CharacterCount>({title.length}/50)</CharacterCount>
         </div>
 
-        <div>
-          <StyledLabel htmlFor="codeAndContents">
-            코드 & 내용 (Markdown을 지원합니다.)
-          </StyledLabel>
-          <StyledTextArea
-            id="codeAndContents"
-            placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
-            value={codeAndContents}
-            onChange={(e) => setCodeAndContents(e.target.value)}
-            maxLength={3000}
-          />
-          <CharacterCount>({codeAndContents.length}/3000)</CharacterCount>
-        </div>
-        <div>
-          <StyledLabel>미리보기</StyledLabel>
-          <MarkdownPreview>{markdownContent}</MarkdownPreview>
-        </div>
+        {isInput ? (
+          <div>
+            <StyledLabel htmlFor="codeAndContents">
+              코드 & 내용 (Markdown을 지원합니다.)
+            </StyledLabel>
+            <WriteAndPreviewInputButton
+              onInput={handleIsInputWrite}
+              onPreview={handleInputPreview}
+              isInput={isInput}
+            />
+            <TextAreaContainer>
+              <StyledTextArea
+                id="codeAndContents"
+                placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
+                value={codeAndContents}
+                onChange={(e) => setCodeAndContents(e.target.value)}
+                maxLength={3000}
+              />
+              <CharacterCount>({codeAndContents.length}/3000)</CharacterCount>
+            </TextAreaContainer>
+          </div>
+        ) : (
+          <div>
+            <StyledLabel>미리보기</StyledLabel>
+            <WriteAndPreviewInputButton
+              onInput={handleIsInputWrite}
+              onPreview={handleInputPreview}
+              isInput={isInput}
+            />
+            <TextAreaContainer>
+              <MarkdownPreview>{markdownContent}</MarkdownPreview>
+            </TextAreaContainer>
+          </div>
+        )}
+
         <ButtonContainer>
           <Button $variant="cancel" type="button" onClick={handleMainPage}>
             취소

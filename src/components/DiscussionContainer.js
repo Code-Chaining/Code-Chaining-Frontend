@@ -10,12 +10,16 @@ import {
   ImageAndCommentCount,
   StyledLabelAndCommentCount,
 } from "../css/DiscussionContainerCss";
+import { useRooms } from "../contexts/RoomContext";
+import { useLoading } from "../contexts/LoadingContext";
 
 export default function DiscussionContainer({ roomId, isLoggedIn, userInfo }) {
   const [comments, setComments] = useState([]);
   const [isCommentEditing, setIsCommentEditing] = useState(false);
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedContents, setEditedContents] = useState("");
+  const { myFetchRooms } = useRooms();
+  const { setIsLoading } = useLoading();
 
   useEffect(() => {
     const fetchCommentList = async () => {
@@ -97,6 +101,10 @@ export default function DiscussionContainer({ roomId, isLoggedIn, userInfo }) {
           (comment) => comment.commentId !== commentId
         );
         setComments(filteredComments);
+
+        await myFetchRooms(setIsLoading);
+        setIsLoading(false);
+
         alert("댓글을 삭제하는데 성공했습니다!");
       } catch (error) {
         alert("댓글을 삭제하는데 실패했습니다..");

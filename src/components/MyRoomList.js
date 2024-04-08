@@ -10,14 +10,21 @@ import Button from "./Button";
 
 import { useAuth } from "../contexts/AuthContext.js";
 import { useRooms } from "../contexts/RoomContext.js";
+import { useLoading } from "../contexts/LoadingContext.js";
 
 export default function MyRoomList() {
   let navigate = useNavigate();
 
   const { isLoggedIn } = useAuth();
-  const { myRooms } = useRooms();
+  const { setIsLoading } = useLoading();
+  const { myRooms, myFetchRooms } = useRooms();
 
   useEffect(() => {
+    if (isLoggedIn) {
+      myFetchRooms(setIsLoading);
+      setIsLoading(false);
+    }
+
     if (!isLoggedIn) {
       return;
     }

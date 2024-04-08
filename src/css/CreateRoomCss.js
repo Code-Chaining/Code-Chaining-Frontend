@@ -25,6 +25,19 @@ export const ButtonContainer = styled.div`
   z-index: 9;
 `;
 
+export const TextAreaContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #434343;
+  border-top-right-radius: 0.5vw;
+  border-bottom-left-radius: 0.5vw;
+  border-bottom-right-radius: 0.5vw;
+  background-color: #434343;
+  padding: 1vw;
+  padding-top: 2vh;
+  margin-right: 4vw;
+`;
+
 export const StyledInput = styled.input`
   width: 95%;
   padding: 0.5vw;
@@ -40,7 +53,7 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledTextArea = styled.textarea`
-  width: 95%;
+  width: 100%;
   height: 20vh;
   padding: 1vw;
   box-sizing: border-box;
@@ -62,16 +75,16 @@ export const StyledLabel = styled.label`
 `;
 
 export const MarkdownPreview = styled.div`
-  width: 95%;
+  width: ${(props) => (props.size === "small" ? "68vw" : "74vw")};
+  height: auto;
   border: 1px solid #ccc;
   padding: 2vw;
   box-sizing: border-box;
-  border: 1px solid #ccc;
+  background-color: #ffffff;
   border-radius: 0.4vw;
-  margin: 0.5vw 0;
 `;
 
 export const CharacterCount = styled.div`
-  color: #666;
+  color: #ffffff;
   font-size: 1vw;
 `;
