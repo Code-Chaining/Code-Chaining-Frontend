@@ -64,7 +64,7 @@ export default function DiscussionContainer({ roomId, isLoggedIn, userInfo }) {
     }
   };
 
-  const handleCommentUpdateSave = async (commentId, editedContents) => {
+  const handleCommentUpdateSave = async (commentId) => {
     try {
       await axiosInstance.put(`/comment/${commentId}`, {
         contents: editedContents,

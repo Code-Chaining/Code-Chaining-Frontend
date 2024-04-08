@@ -58,13 +58,13 @@ export const SubmitButtonContainer = styled.div`
 
 export const SubmitButton = styled.button`
   display: flex;
-  width: 7vw;
+  width: 6vw;
   align-items: center;
   justify-content: center;
-  font-size: 1.3vw;
+  font-size: 1vw;
   border-radius: 0.4vw;
   border: 1px solid #434343;
-  padding: 0.3vw;
+  padding: 0.2vw;
   margin: 0.6vh 0.1vw 0 0;
   background-color: #ffffff;
   &:hover {
