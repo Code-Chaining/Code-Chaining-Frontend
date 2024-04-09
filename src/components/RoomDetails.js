@@ -6,6 +6,7 @@ import {
   ButtonContainer,
   StyledTextArea,
   CharacterCount,
+  TextAreaContainer,
 } from "../css/CreateRoomCss";
 import {
   RoomDetailsContainer,
@@ -26,6 +27,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRooms } from "../contexts/RoomContext";
 import { useLoading } from "../contexts/LoadingContext";
 import LoaderSpinner from "./LoaderSpinner";
+import WriteAndPreviewInputButton from "./WriteAndPreviewInputButton";
 
 export default function RoomDetails() {
   let { roomId } = useParams();
@@ -34,6 +36,7 @@ export default function RoomDetails() {
   const { removeRoomFromList } = useRooms();
   const { isLoading, setIsLoading } = useLoading();
   const [isRoomEditing, setIsRoomEditing] = useState(false);
+  const [isInput, setIsInput] = useState(true);
 
   const [originalRoomInfo, setOriginalRoomInfo] = useState([]);
 
@@ -201,36 +204,57 @@ export default function RoomDetails() {
           <>
             <StyledLabel>코드 & 내용</StyledLabel>
             <MarkdownPreview>{markdownContent}</MarkdownPreview>
+
+            <Divider />
+            <DiscussionContainer
+              roomId={roomId}
+              isLoggedIn={isLoggedIn}
+              userInfo={userInfo}
+            />
           </>
         ) : (
           <>
-            <StyledLabel>
-              코드 & 내용을 입력하세요. (Markdown을 지원합니다.)
-            </StyledLabel>
-            <StyledTextArea
-              id="codeAndContents"
-              placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
-              value={roomInfo.codeAndContents}
-              onChange={(e) =>
-                updateRoomInfo("codeAndContents", e.target.value)
-              }
-            />
-            <CharacterCount>
-              ({roomInfo.codeAndContents.length}/3000)
-            </CharacterCount>
-            <StyledLabel>미리보기</StyledLabel>
-            <MarkdownPreview>{markdownContent}</MarkdownPreview>
+            {isInput ? (
+              <div>
+                <StyledLabel htmlFor="codeAndContents">
+                  코드 & 내용 (Markdown을 지원합니다.)
+                </StyledLabel>
+                <WriteAndPreviewInputButton
+                  onInput={() => setIsInput(true)}
+                  onPreview={() => setIsInput(false)}
+                  isInput={isInput}
+                />
+                <TextAreaContainer>
+                  <StyledTextArea
+                    id="codeAndContents"
+                    placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
+                    value={roomInfo.codeAndContents}
+                    onChange={(e) =>
+                      updateRoomInfo("codeAndContents", e.target.value)
+                    }
+                    maxLength={3000}
+                  />
+                  <CharacterCount>
+                    ({roomInfo.codeAndContents.length}/3000)
+                  </CharacterCount>
+                </TextAreaContainer>
+              </div>
+            ) : (
+              <div>
+                <StyledLabel>미리보기</StyledLabel>
+                <WriteAndPreviewInputButton
+                  onInput={() => setIsInput(true)}
+                  onPreview={() => setIsInput(false)}
+                  isInput={isInput}
+                />
+                <TextAreaContainer>
+                  <MarkdownPreview>{markdownContent}</MarkdownPreview>
+                </TextAreaContainer>
+              </div>
+            )}
           </>
         )}
       </div>
-      <Divider />
-
-      {/* 토론의 장 */}
-      <DiscussionContainer
-        roomId={roomId}
-        isLoggedIn={isLoggedIn}
-        userInfo={userInfo}
-      />
     </RoomDetailsContainer>
   );
 }

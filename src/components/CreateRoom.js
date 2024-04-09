@@ -21,14 +21,6 @@ export default function CreateRoom() {
   const [codeAndContents, setCodeAndContents] = useState("");
   const [isInput, setIsInput] = useState(true);
 
-  const handleIsInputWrite = () => {
-    setIsInput(true);
-  };
-
-  const handleInputPreview = () => {
-    setIsInput(false);
-  };
-
   let navigate = useNavigate();
 
   function handleMainPage() {
@@ -82,8 +74,8 @@ export default function CreateRoom() {
               코드 & 내용 (Markdown을 지원합니다.)
             </StyledLabel>
             <WriteAndPreviewInputButton
-              onInput={handleIsInputWrite}
-              onPreview={handleInputPreview}
+              onInput={() => setIsInput(true)}
+              onPreview={() => setIsInput(false)}
               isInput={isInput}
             />
             <TextAreaContainer>
@@ -101,8 +93,8 @@ export default function CreateRoom() {
           <div>
             <StyledLabel>미리보기</StyledLabel>
             <WriteAndPreviewInputButton
-              onInput={handleIsInputWrite}
-              onPreview={handleInputPreview}
+              onInput={() => setIsInput(true)}
+              onPreview={() => setIsInput(false)}
               isInput={isInput}
             />
             <TextAreaContainer>

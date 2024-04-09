@@ -41,6 +41,7 @@ export default function CommentsContainer({
       }
     }
   }, []);
+  // 이 배열안에 isInput이 있냐 없냐에 따라 자동 조절이 먹고 안먹고 함. 이유 검색해보기
 
   const autoResizeTextarea = (event) => {
     const textarea = event.target;
