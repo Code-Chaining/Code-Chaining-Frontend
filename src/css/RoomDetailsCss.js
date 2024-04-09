@@ -28,16 +28,16 @@ export const RoomInfoAndButtonContainer = styled.div`
 export const RoomInfoContainer = styled.div`
   display: flex;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   padding: 0.6vw;
-  width: 10vw;
+  width: 7vw;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const Nickname = styled.div`
   margin-left: 0.8vw;
-  font-size: 1.5vw;
+  font-size: 1.3vw;
   font-weight: bold;
   width: 100%;
   color: #333;
