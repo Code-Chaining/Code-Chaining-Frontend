@@ -38,7 +38,7 @@ export const CommentInput = styled.textarea`
   background-color: #ffffff;
   border-radius: 0.4vw;
   font-size: 1.1vw;
-  resize: vertical;
+  resize: none;
   &:focus {
     outline: none;
     border-color: #4a90e2;

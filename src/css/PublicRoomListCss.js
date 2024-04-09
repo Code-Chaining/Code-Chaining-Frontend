@@ -36,5 +36,28 @@ export const PublicRoomDiv = styled.div`
   background: #ffffff;
   z-index: 9;
   overflow: hidden;
-  overflow-y: scroll; // 나중에 페이지네이션 넣을 때 없애기
+  overflow-y: scroll;
+`;
+
+export const PublicRoomTitleContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  align-items: center;
+`;
+
+export const SearchImage = styled.img`
+  width: 2vw;
+  margin-left: 9.5vw;
+`;
+
+export const SearchInput = styled.input`
+  padding: 8px;
+  margin-left: 0.5vw;
+  border: 1px solid #000000;
+  border-radius: 4px;
+
+  &:focus {
+    outline: none;
+  }
 `;

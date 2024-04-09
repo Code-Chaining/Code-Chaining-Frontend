@@ -10,6 +10,7 @@ export function useRooms() {
 export function RoomProvider({ children }) {
   const [myRooms, setMyRooms] = useState([]);
   const [publicRooms, setPublicRooms] = useState([]);
+  const [searchFilter, setSearchFilter] = useState("");
 
   const myFetchRooms = async (setIsLoading) => {
     setIsLoading(true);
@@ -31,7 +32,10 @@ export function RoomProvider({ children }) {
   const publicFetchRooms = async (setIsLoading) => {
     setIsLoading(true);
     try {
-      const response = await axiosInstance.get(`/room/public`);
+      const response = await axiosInstance.get(
+        `/room/public/search?filter=${searchFilter}`
+      );
+      console.log(response);
       const roomsData = response.data.data.publicRoomList.map((room) => ({
         roomId: room.roomId,
         title: room.title,
@@ -55,6 +59,8 @@ export function RoomProvider({ children }) {
     publicRooms,
     myFetchRooms,
     publicFetchRooms,
+    searchFilter,
+    setSearchFilter,
     removeRoomFromList,
   };
 

@@ -59,7 +59,7 @@ export const StyledTextArea = styled.textarea`
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 0.4vw;
-  resize: vertical;
+  resize: none;
   &:focus {
     outline: none;
     border-color: #4a90e2;
