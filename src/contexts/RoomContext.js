@@ -35,7 +35,7 @@ export function RoomProvider({ children }) {
       const response = await axiosInstance.get(
         `/room/public/search?filter=${searchFilter}`
       );
-      console.log(response);
+
       const roomsData = response.data.data.publicRoomList.map((room) => ({
         roomId: room.roomId,
         title: room.title,
