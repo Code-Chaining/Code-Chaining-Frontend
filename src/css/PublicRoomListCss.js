@@ -26,6 +26,8 @@ export const PublicRoomSpan = styled.span`
   text-align: center;
   border-radius: 1vw;
   box-shadow: 0vw 0.4vw 0.6vw rgba(0, 0, 0, 0.1);
+  margin-right: auto;
+  margin-left: auto;
 `;
 
 export const PublicRoomDiv = styled.div`
@@ -39,7 +41,7 @@ export const PublicRoomDiv = styled.div`
   overflow-y: scroll;
 `;
 
-export const PublicRoomTitleContainer = styled.div`
+export const SearchContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 90%;
@@ -48,7 +50,6 @@ export const PublicRoomTitleContainer = styled.div`
 
 export const SearchImage = styled.img`
   width: 2vw;
-  margin-left: 9.5vw;
 `;
 
 export const SearchInput = styled.input`

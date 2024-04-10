@@ -14,7 +14,7 @@ export const RoomDetailsContainer = styled.div`
 `;
 
 export const Divider = styled.div`
-  border-top: 1px solid #ccc; /* 구분선 색상을 #ccc로 설정 */
+  border-top: 1px solid #ccc;
   margin: 2vh 4vw 2vh 0;
 `;
 

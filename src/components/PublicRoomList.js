@@ -3,6 +3,7 @@ import {
   PublicRoomSpan,
   PublicRoomDiv,
   PublicRoomTitleContainer,
+  SearchContainer,
   SearchImage,
   SearchInput,
 } from "../css/PublicRoomListCss";
@@ -38,8 +39,9 @@ export default function PublicRoomList() {
 
   return (
     <PublicRoom>
-      <PublicRoomTitleContainer>
-        <PublicRoomSpan>공개 방</PublicRoomSpan>
+      <PublicRoomSpan>공개 방</PublicRoomSpan>
+
+      <SearchContainer>
         <SearchImage src={searchImage} alt="검색" />
         <form onSubmit={handleSubmit}>
           <SearchInput
@@ -49,7 +51,7 @@ export default function PublicRoomList() {
             onChange={handleSearchChange}
           />
         </form>
-      </PublicRoomTitleContainer>
+      </SearchContainer>
 
       <PublicRoomDiv>
         {publicRooms.length > 0 ? (
