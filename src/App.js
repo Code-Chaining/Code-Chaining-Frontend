@@ -17,29 +17,39 @@ import LoginPage from "./components/LoginPage";
 import styled from "styled-components";
 import CombineRoomList from "./components/CombineRoomList";
 
-function App() {
-  return (
-    <Router>
-      <RoomProvider>
-        <AuthProvider>
-          <PageLayout>
-            <AppContainer>
-              <LoadingProvider>
-                <Routes>
-                  <Route path="/login" element={<LoginPage />} />
+import { useMediaQuery } from "react-responsive";
 
-                  <Route path="/" element={<CombineRoomList />} />
-                  <Route element={<CommonLayout />}>
-                    <Route path="/create-room" element={<CreateRoom />} />
-                    <Route path="/room/:roomId" element={<RoomDetails />} />
-                  </Route>
-                </Routes>
-              </LoadingProvider>
-            </AppContainer>
-          </PageLayout>
-        </AuthProvider>
-      </RoomProvider>
-    </Router>
+function App() {
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+
+  return (
+    <>
+      {isMobile ? (
+        <div>모바일에서는 지원하지 않는 서비스입니다.</div>
+      ) : (
+        <Router>
+          <RoomProvider>
+            <AuthProvider>
+              <PageLayout>
+                <AppContainer>
+                  <LoadingProvider>
+                    <Routes>
+                      <Route path="/login" element={<LoginPage />} />
+
+                      <Route path="/" element={<CombineRoomList />} />
+                      <Route element={<CommonLayout />}>
+                        <Route path="/create-room" element={<CreateRoom />} />
+                        <Route path="/room/:roomId" element={<RoomDetails />} />
+                      </Route>
+                    </Routes>
+                  </LoadingProvider>
+                </AppContainer>
+              </PageLayout>
+            </AuthProvider>
+          </RoomProvider>
+        </Router>
+      )}
+    </>
   );
 }
 

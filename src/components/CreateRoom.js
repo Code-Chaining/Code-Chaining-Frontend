@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   CreateRoomForm,
@@ -20,6 +20,24 @@ export default function CreateRoom() {
   const [title, setTitle] = useState("");
   const [codeAndContents, setCodeAndContents] = useState("");
   const [isInput, setIsInput] = useState(true);
+  const [textareaHeight, setTextareaHeight] = useState("auto");
+
+  useEffect(() => {
+    if (isInput) {
+      const event = {
+        target: document.querySelector('textarea[name="contents"]'),
+      };
+      autoResizeTextarea(event);
+    }
+  }, [isInput]);
+
+  const autoResizeTextarea = (event) => {
+    const textarea = event.target;
+    textarea.style.height = "auto";
+    const newHeight = `${textarea.scrollHeight}px`;
+    textarea.style.height = newHeight;
+    setTextareaHeight(newHeight);
+  };
 
   let navigate = useNavigate();
 
@@ -81,9 +99,15 @@ export default function CreateRoom() {
             <TextAreaContainer>
               <StyledTextArea
                 id="codeAndContents"
+                type="text"
+                name="contents"
                 placeholder="코드 & 내용을 입력하세요. (Markdown을 지원합니다.)"
                 value={codeAndContents}
-                onChange={(e) => setCodeAndContents(e.target.value)}
+                style={{ height: textareaHeight }}
+                onChange={(e) => {
+                  setCodeAndContents(e.target.value);
+                  autoResizeTextarea(e);
+                }}
                 maxLength={3000}
               />
               <CharacterCount>({codeAndContents.length}/3000)</CharacterCount>
