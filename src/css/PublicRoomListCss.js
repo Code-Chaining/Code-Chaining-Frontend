@@ -41,10 +41,17 @@ export const PublicRoomDiv = styled.div`
   overflow-y: scroll;
 `;
 
+export const ScrapButtonAndSearchContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  align-items: center;
+`;
+
 export const SearchContainer = styled.div`
   display: flex;
   justify-content: flex-end;
-  width: 90%;
+  width: auth;
   align-items: center;
 `;
 

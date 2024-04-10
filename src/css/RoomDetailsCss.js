@@ -48,3 +48,9 @@ export const ProfileImage = styled.img`
   border-radius: 50%;
   object-fit: cover;
 `;
+
+export const ScrapImage = styled.img`
+  width: 2vw;
+  margin-right: 4vw;
+  cursor: pointer;
+`;
