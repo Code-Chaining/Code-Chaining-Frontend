@@ -7,10 +7,11 @@ import RoomSidebar from "./RoomSidebar";
 
 export default function CombineRoomList() {
   const { isLoading, setIsLoading } = useLoading();
-  const { myFetchRooms, publicFetchRooms } = useRooms();
+  const { myFetchRooms, myFetchScrapRooms, publicFetchRooms } = useRooms();
 
   useEffect(() => {
     myFetchRooms(setIsLoading);
+    myFetchScrapRooms(setIsLoading);
     publicFetchRooms(setIsLoading);
   }, []);
 

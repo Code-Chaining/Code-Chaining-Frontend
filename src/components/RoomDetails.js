@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import scrapTrueImage from "../assets/ScrapTrue.png";
+import scrapFalseImage from "../assets/ScrapFalse.png";
 import {
   StyledLabel,
   MarkdownPreview,
@@ -15,6 +17,7 @@ import {
   RoomInfoContainer,
   Nickname,
   ProfileImage,
+  ScrapImage,
 } from "../css/RoomDetailsCss";
 
 import Button from "./Button";
@@ -47,6 +50,7 @@ export default function RoomDetails() {
     memberId: "",
     nickname: "",
     picture: "",
+    isScrap: false,
   });
 
   let navigate = useNavigate();
@@ -59,8 +63,15 @@ export default function RoomDetails() {
       setIsLoading(true);
       try {
         const response = await axiosInstance.get(`/room/${roomId}`);
-        const { title, codeAndContents, date, memberId, nickname, picture } =
-          response.data.data;
+        const {
+          title,
+          codeAndContents,
+          date,
+          memberId,
+          nickname,
+          picture,
+          isScrap,
+        } = response.data.data;
         setRoomInfo({
           title,
           codeAndContents,
@@ -68,6 +79,7 @@ export default function RoomDetails() {
           memberId,
           nickname,
           picture,
+          isScrap,
         });
       } catch (error) {
         console.log(error);
@@ -145,6 +157,34 @@ export default function RoomDetails() {
     setIsRoomEditing(false);
   };
 
+  const handleScrapRoom = async () => {
+    const requestData = {
+      roomId: roomId,
+    };
+
+    try {
+      const apiEndPoint = roomInfo.isScrap
+        ? `/room/scrap/delete`
+        : `/room/scrap`;
+
+      const response = await axiosInstance.post(apiEndPoint, requestData);
+
+      if (response.status === 200) {
+        setRoomInfo((prevState) => ({
+          ...prevState,
+          isScrap: !prevState.isScrap,
+        }));
+        roomInfo.isScrap
+          ? alert("저장을 취소했습니다.")
+          : alert("이 토론 방을 저장하셨습니다");
+      } else {
+        alert("저장 상태 변경 실패");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const markdownContent = renderMarkdown(roomInfo.codeAndContents);
 
   return (
@@ -181,7 +221,21 @@ export default function RoomDetails() {
             )}
           </>
         ) : (
-          <></>
+          <>
+            {roomInfo.isScrap ? (
+              <ScrapImage
+                src={scrapTrueImage}
+                alt="스크랩O"
+                onClick={handleScrapRoom}
+              ></ScrapImage>
+            ) : (
+              <ScrapImage
+                src={scrapFalseImage}
+                alt="스크랩X"
+                onClick={handleScrapRoom}
+              ></ScrapImage>
+            )}
+          </>
         )}
       </RoomInfoAndButtonContainer>
 

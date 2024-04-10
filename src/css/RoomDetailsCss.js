@@ -14,7 +14,7 @@ export const RoomDetailsContainer = styled.div`
 `;
 
 export const Divider = styled.div`
-  border-top: 1px solid #ccc; /* 구분선 색상을 #ccc로 설정 */
+  border-top: 1px solid #ccc;
   margin: 2vh 4vw 2vh 0;
 `;
 
@@ -47,4 +47,10 @@ export const ProfileImage = styled.img`
   width: 40%;
   border-radius: 50%;
   object-fit: cover;
+`;
+
+export const ScrapImage = styled.img`
+  width: 2vw;
+  margin-right: 4vw;
+  cursor: pointer;
 `;

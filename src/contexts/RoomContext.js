@@ -9,6 +9,7 @@ export function useRooms() {
 
 export function RoomProvider({ children }) {
   const [myRooms, setMyRooms] = useState([]);
+  const [myScrapRooms, setMyScrapRooms] = useState([]);
   const [publicRooms, setPublicRooms] = useState([]);
   const [searchFilter, setSearchFilter] = useState("");
 
@@ -20,11 +21,31 @@ export function RoomProvider({ children }) {
         roomId: room.roomId,
         title: room.title,
         commentCount: room.commentCount,
+        isScrap: room.isScrap,
       }));
 
       setMyRooms(roomsData);
     } catch (error) {
       console.error(error);
+    }
+    setIsLoading(false);
+  };
+
+  const myFetchScrapRooms = async (setIsLoading) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get(`/room/my/scrap`);
+      const roomsData = response.data.data.publicRoomList.map((room) => ({
+        roomId: room.roomId,
+        title: room.title,
+        writer: room.writer,
+        commentCount: room.commentCount,
+        isScrap: room.isScrap,
+      }));
+
+      setMyScrapRooms(roomsData);
+    } catch (error) {
+      console.log(error);
     }
     setIsLoading(false);
   };
@@ -41,6 +62,7 @@ export function RoomProvider({ children }) {
         title: room.title,
         writer: room.writer,
         commentCount: room.commentCount,
+        isScrap: room.isScrap,
       }));
 
       setPublicRooms(roomsData);
@@ -56,8 +78,10 @@ export function RoomProvider({ children }) {
 
   const value = {
     myRooms,
+    myScrapRooms,
     publicRooms,
     myFetchRooms,
+    myFetchScrapRooms,
     publicFetchRooms,
     searchFilter,
     setSearchFilter,
