@@ -25,7 +25,9 @@ function App() {
   return (
     <>
       {isMobile ? (
-        <div>모바일에서는 지원하지 않는 서비스입니다.</div>
+        <MobileOnlyMessage>
+          모바일에서는 지원하지 않는 서비스입니다.
+        </MobileOnlyMessage>
       ) : (
         <Router>
           <RoomProvider>
@@ -77,4 +79,19 @@ export default App;
 const AppContainer = styled.div`
   height: 90vh;
   overflow: scroll;
+`;
+
+const MobileOnlyMessage = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    height: 100%;
+    display: block;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+  }
 `;
