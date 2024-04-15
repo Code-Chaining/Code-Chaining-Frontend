@@ -17,14 +17,17 @@ export function RoomProvider({ children }) {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(`/room/my`);
-      const roomsData = response.data.data.myRoomList.map((room) => ({
-        roomId: room.roomId,
-        title: room.title,
-        commentCount: room.commentCount,
-        isScrap: room.isScrap,
-      }));
 
-      setMyRooms(roomsData);
+      if (response.data.data !== null) {
+        const roomsData = response.data.data.myRoomList.map((room) => ({
+          roomId: room.roomId,
+          title: room.title,
+          commentCount: room.commentCount,
+          isScrap: room.isScrap,
+        }));
+
+        setMyRooms(roomsData);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -35,15 +38,18 @@ export function RoomProvider({ children }) {
     setIsLoading(true);
     try {
       const response = await axiosInstance.get(`/room/my/scrap`);
-      const roomsData = response.data.data.publicRoomList.map((room) => ({
-        roomId: room.roomId,
-        title: room.title,
-        writer: room.writer,
-        commentCount: room.commentCount,
-        isScrap: room.isScrap,
-      }));
 
-      setMyScrapRooms(roomsData);
+      if (response.data.data !== null) {
+        const roomsData = response.data.data.publicRoomList.map((room) => ({
+          roomId: room.roomId,
+          title: room.title,
+          writer: room.writer,
+          commentCount: room.commentCount,
+          isScrap: room.isScrap,
+        }));
+
+        setMyScrapRooms(roomsData);
+      }
     } catch (error) {
       console.log(error);
     }
