@@ -57,6 +57,15 @@ export default function LoginPage() {
         })
         .then((response) => {
           login(response.data.data);
+
+          return axios({
+            method: "get",
+            url: `${apiBaseUrl}/csrf-token`,
+          });
+        })
+        .then((response) => {
+          localStorage.setItem("X-CSRF-TOKEN", response.data.data);
+
           setIsLoading(false);
           navigate("/");
         })
