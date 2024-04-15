@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import Cookies from "react-cookies";
+import Cookies from "js-cookie";
 import logoImage from "../assets/Logo.png";
 import kakaoLoginImage from "../assets/kakaoLogin.png";
 
@@ -59,9 +59,8 @@ export default function LoginPage() {
         .then((response) => {
           login(response.data.data);
 
-          return axios({
-            method: "get",
-            url: `${apiBaseUrl}/csrf-token`,
+          return axios.get(`${apiBaseUrl}/csrf-token`, {
+            withCredentials: true,
           });
         })
         .then((response) => {
