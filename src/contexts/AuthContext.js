@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { axiosInstance } from "../utils/apiConfig";
-import Cookies from "react-cookies";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 

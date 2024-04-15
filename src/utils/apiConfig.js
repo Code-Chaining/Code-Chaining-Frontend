@@ -10,11 +10,11 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
-    const csrfToken = Cookies.get("X-CSRF-TOKEN");
+    // const csrfToken = Cookies.get("X-CSRF-TOKEN");
 
-    if (accessToken && csrfToken) {
+    if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
-      config.headers["X-CSRF-TOKEN"] = csrfToken;
+      // config.headers["X-CSRF-TOKEN"] = csrfToken;
     }
     return config;
   },
