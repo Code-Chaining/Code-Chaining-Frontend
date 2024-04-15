@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookies from "react-cookies";
+import Cookies from "js-cookie";
 
 export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
