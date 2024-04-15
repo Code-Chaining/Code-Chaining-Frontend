@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Cookies from "react-cookies";
 import logoImage from "../assets/Logo.png";
 import kakaoLoginImage from "../assets/kakaoLogin.png";
 
@@ -64,7 +65,8 @@ export default function LoginPage() {
           });
         })
         .then((response) => {
-          localStorage.setItem("X-CSRF-TOKEN", response.data.data);
+          const csrfToken = response.data.data;
+          Cookies.set("X-CSRF-TOKEN", csrfToken);
 
           setIsLoading(false);
           navigate("/");

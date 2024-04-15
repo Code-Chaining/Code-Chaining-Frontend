@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "react-cookies";
 
 export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
@@ -9,7 +10,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
-    const csrfToken = localStorage.getItem("X-CSRF-TOKEN");
+    const csrfToken = Cookies.get("X-CSRF-TOKEN");
 
     if (accessToken && csrfToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;

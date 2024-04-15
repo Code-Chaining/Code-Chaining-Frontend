@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { axiosInstance } from "../utils/apiConfig";
+import Cookies from "react-cookies";
 
 const AuthContext = createContext();
 
@@ -39,6 +40,7 @@ export function AuthProvider({ children }) {
     if (isConfirmed) {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      Cookies.remove("X-CSRF-TOKEN");
       setIsLoggedIn(false);
       setUserInfo([]);
       alert("로그아웃 성공!");
