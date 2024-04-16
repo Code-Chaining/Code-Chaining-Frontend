@@ -6,9 +6,6 @@ export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 export const axiosInstance = axios.create({
   baseURL: apiBaseUrl,
   withCredentials: true,
-  headers: {
-    "Access-Control-Allow-Origin": "https://code-chaining.shop",
-  },
 });
 
 axiosInstance.interceptors.request.use(
