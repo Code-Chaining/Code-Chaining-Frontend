@@ -59,13 +59,13 @@ export default function LoginPage() {
         .then((response) => {
           login(response.data.data);
 
-          //   return axios.get(`${apiBaseUrl}/csrf-token`, {
-          //     withCredentials: true,
-          //   });
-          // })
-          // .then((response) => {
-          //   const csrfToken = response.data.data;
-          //   Cookies.set("X-CSRF-TOKEN", csrfToken);
+          return axios.get(`${apiBaseUrl}/csrf-token`, {
+            withCredentials: true,
+          });
+        })
+        .then((response) => {
+          const csrfToken = response.data.data;
+          Cookies.set("X-CSRF-TOKEN", csrfToken);
 
           setIsLoading(false);
           navigate("/");
