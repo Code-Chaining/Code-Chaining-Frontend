@@ -5,16 +5,20 @@ export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL;
 
 export const axiosInstance = axios.create({
   baseURL: apiBaseUrl,
+  withCredentials: true,
+  headers: {
+    "Access-Control-Allow-Origin": "https://code-chaining.shop",
+  },
 });
 
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem("accessToken");
-    // const csrfToken = Cookies.get("X-CSRF-TOKEN");
+    const csrfToken = Cookies.get("X-CSRF-TOKEN");
 
     if (accessToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
-      // config.headers["X-CSRF-TOKEN"] = csrfToken;
+      config.headers["X-CSRF-TOKEN"] = csrfToken;
     }
     return config;
   },
