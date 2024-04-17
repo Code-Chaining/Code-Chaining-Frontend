@@ -21,7 +21,10 @@ export default function LoginPage() {
   let navigate = useNavigate();
   const { isLoggedIn, login } = useAuth();
   const { isLoading, setIsLoading } = useLoading();
-  const [userInfo, setUserInfo] = useState();
+  const [loginToken, setLoginToken] = useState({
+    accessToken: "",
+    refreshToken: "",
+  });
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -58,7 +61,7 @@ export default function LoginPage() {
           });
         })
         .then((response) => {
-          setUserInfo(response.data.data);
+          setLoginToken(response.data.data);
 
           return axios.get(`${apiBaseUrl}/csrf-token`, {
             withCredentials: true,
@@ -67,16 +70,20 @@ export default function LoginPage() {
         .then((response) => {
           const csrfToken = response.data.data;
           Cookies.set("X-CSRF-TOKEN", csrfToken);
-
-          login(userInfo);
-          setIsLoading(false);
-          navigate("/");
         })
         .catch((error) => {
           console.error(error);
         });
     }
   }, [isLoggedIn, login, navigate]);
+
+  useEffect(() => {
+    if (loginToken.accessToken !== "") {
+      login(loginToken);
+      setIsLoading(false);
+      navigate("/");
+    }
+  }, [loginToken]);
 
   if (isLoading) {
     return <LoaderSpinner />;
