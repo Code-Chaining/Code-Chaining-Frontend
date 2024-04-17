@@ -13,7 +13,7 @@ export function AuthProvider({ children }) {
   const [userInfo, setUserInfo] = useState([]);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (localStorage.getItem("accessToken") && Cookies.get("X-CSRF-TOKEN")) {
       setIsLoggedIn(true);
       fetchMemberInfo();
     }
