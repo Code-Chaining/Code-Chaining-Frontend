@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     const accessToken = localStorage.getItem("accessToken");
     const csrfToken = Cookies.get("X-CSRF-TOKEN");
 
-    if (accessToken) {
+    if (accessToken && csrfToken) {
       config.headers["Authorization"] = `Bearer ${accessToken}`;
       config.headers["X-CSRF-TOKEN"] = csrfToken;
     }
@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
     return response;
   },
   async (error) => {
-    if (error.response.status === 403 && localStorage.getItem("refreshToken")) {
+    if (error.response.status === 401 && localStorage.getItem("refreshToken")) {
       try {
         const refreshToken = localStorage.getItem("refreshToken");
         const response = await axios.post(`${apiBaseUrl}/token/access`, {
