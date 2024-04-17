@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import logoImage from "../assets/Logo.png";
 import kakaoLoginImage from "../assets/kakaoLogin.png";
@@ -21,6 +21,7 @@ export default function LoginPage() {
   let navigate = useNavigate();
   const { isLoggedIn, login } = useAuth();
   const { isLoading, setIsLoading } = useLoading();
+  const [userInfo, setUserInfo] = useState();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -57,7 +58,7 @@ export default function LoginPage() {
           });
         })
         .then((response) => {
-          login(response.data.data);
+          setUserInfo(response.data.data);
 
           return axios.get(`${apiBaseUrl}/csrf-token`, {
             withCredentials: true,
@@ -67,6 +68,7 @@ export default function LoginPage() {
           const csrfToken = response.data.data;
           Cookies.set("X-CSRF-TOKEN", csrfToken);
 
+          login(userInfo);
           setIsLoading(false);
           navigate("/");
         })
