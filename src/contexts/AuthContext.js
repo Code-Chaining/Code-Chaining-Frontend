@@ -14,8 +14,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (localStorage.getItem("accessToken") && Cookies.get("X-CSRF-TOKEN")) {
-      setIsLoggedIn(true);
       fetchMemberInfo();
+      setIsLoggedIn(true);
     }
   }, []);
 
@@ -33,8 +33,8 @@ export function AuthProvider({ children }) {
     localStorage.setItem("refreshToken", refreshToken);
 
     if (localStorage.getItem("accessToken") && Cookies.get("X-CSRF-TOKEN")) {
-      setIsLoggedIn(true);
       fetchMemberInfo();
+      setIsLoggedIn(true);
     }
   };
 
