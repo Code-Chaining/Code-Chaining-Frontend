@@ -31,8 +31,11 @@ export function AuthProvider({ children }) {
   const login = ({ accessToken, refreshToken }) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
-    setIsLoggedIn(true);
-    fetchMemberInfo();
+
+    if (localStorage.getItem("accessToken") && Cookies.get("X-CSRF-TOKEN")) {
+      setIsLoggedIn(true);
+      fetchMemberInfo();
+    }
   };
 
   const logout = () => {
