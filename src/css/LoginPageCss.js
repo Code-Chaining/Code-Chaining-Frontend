@@ -16,8 +16,7 @@ export const LoginLogoAndTextContainer = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 30%;
   object-fit: cover;
 `;
 
