@@ -28,6 +28,14 @@ export function AuthProvider({ children }) {
     }
   };
 
+  const fetchLogout = async () => {
+    try {
+      await axiosInstance.post(`/logout`);
+    } catch (error) {
+      console.log("로그아웃 실패");
+    }
+  };
+
   const login = ({ accessToken, refreshToken }) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
@@ -38,9 +46,10 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     const isConfirmed = window.confirm("정말 로그아웃 하시겠습니까?");
     if (isConfirmed) {
+      await fetchLogout();
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       Cookies.remove("X-CSRF-TOKEN");
