@@ -17,7 +17,7 @@ export function AuthProvider({ children }) {
       fetchMemberInfo();
       setIsLoggedIn(true);
     }
-  }, [userInfo, isLoggedIn]);
+  }, [isLoggedIn]);
 
   const fetchMemberInfo = async () => {
     try {
